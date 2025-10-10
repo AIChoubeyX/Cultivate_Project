@@ -1,34 +1,81 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // ✅ Check token in localStorage on app load
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []);
-
-  // ✅ Function to log in (store token)
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setIsAuthenticated(true);
-  };
-
-  // ✅ Function to log out (remove token)
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
 };
 
-// ✅ Custom hook for easy access
-export const useAuth = () => useContext(AuthContext);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  // Check if user is already logged in (on page load)
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('farmerToken');
+      const farmerData = localStorage.getItem('farmerData');
+      
+      if (token && farmerData) {
+        try {
+          const parsedData = JSON.parse(farmerData);
+          setUser(parsedData);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Error parsing farmer data:', error);
+          localStorage.removeItem('farmerToken');
+          localStorage.removeItem('farmerData');
+        }
+      }
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  // Login function
+  const login = (token, farmerData) => {
+    localStorage.setItem('farmerToken', token);
+    localStorage.setItem('farmerData', JSON.stringify(farmerData));
+    setUser(farmerData);
+    setIsAuthenticated(true);
+    
+    // Redirect to home page after login
+    navigate('/home');
+  };
+
+  // Logout function
+  const logout = () => {
+    localStorage.removeItem('farmerToken');
+    localStorage.removeItem('farmerData');
+    setUser(null);
+    setIsAuthenticated(false);
+    
+    // Redirect to landing page after logout
+    navigate('/');
+  };
+
+  // Update user data (after profile edit)
+  const updateUser = (updatedData) => {
+    localStorage.setItem('farmerData', JSON.stringify(updatedData));
+    setUser(updatedData);
+  };
+
+  const value = {
+    user,
+    isAuthenticated,
+    loading,
+    login,
+    logout,
+    updateUser
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
