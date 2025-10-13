@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import weatherService from "../services/weatherService";
 import { CROPS, GROWTH_STAGES } from "../utils/constants";
-import { useTranslation } from "../hooks/useTranslation";
+import { useTranslation } from "react-i18next";
 
 const WeatherGuide = () => {
   const [location, setLocation] = useState(null);
@@ -29,42 +29,7 @@ const WeatherGuide = () => {
   const [loadingAI, setLoadingAI] = useState(false);
 
   // ⭐ Translation hook
-  const { t } = useTranslation({
-    title: "Farmer Weather Assistant",
-    subtitle: "AI-powered crop care suggestions",
-    fetchingWeather: "Fetching weather data...",
-    gettingLocation: "Getting your location and latest weather",
-    enableLocation: "Please enable location access for accurate weather data",
-    geoNotSupported: "Geolocation not supported by your browser",
-    weatherFailed: "Failed to fetch weather data. Please check your internet connection.",
-    feelsLike: "Feels like",
-    humidity: "Humidity",
-    windSpeed: "Wind Speed",
-    visibility: "Visibility",
-    pressure: "Pressure",
-    forecast5Day: "5-Day Forecast",
-    aiSuggestions: "AI Crop Care Suggestions",
-    selectCrop: "Select Your Crop:",
-    growthStageLabel: "Growth Stage (Optional):",
-    selectGrowthStage: "Select growth stage...",
-    getAiSuggestions: "Get AI Suggestions",
-    analyzing: "Analyzing...",
-    weatherNotAvailable: "Weather data not available",
-    aiFailed: "Failed to generate AI suggestions. Please try again.",
-    noSuggestionsYet: "Select a crop and click 'Get AI Suggestions' to receive personalized farming advice",
-    refreshWeather: "Refresh weather data",
-    // Crop names
-    wheat: "Wheat",
-    rice: "Rice",
-    cotton: "Cotton",
-    sugarcane: "Sugarcane",
-    tomato: "Tomato",
-    potato: "Potato",
-    onion: "Onion",
-    maize: "Maize",
-    bajra: "Bajra",
-    jowar: "Jowar"
-  });
+  const { t } = useTranslation('weather');
 
   // Get user's location on component mount
   useEffect(() => {
@@ -90,7 +55,7 @@ const WeatherGuide = () => {
         },
         (err) => {
           console.error("Geolocation error:", err);
-          setError(t.enableLocation);
+          setError(t('weather.enableLocation'));
           setLoading(false);
 
           // Fallback to demo location (Delhi)
@@ -100,7 +65,7 @@ const WeatherGuide = () => {
         }
       );
     } else {
-      setError(t.geoNotSupported);
+      setError(t('weather.geoNotSupported'));
       setLoading(false);
     }
   };
@@ -126,7 +91,7 @@ const WeatherGuide = () => {
       setLoading(false);
     } catch (err) {
       console.error("Weather fetch error:", err);
-      setError(t.weatherFailed);
+      setError(t('weather.weatherFailed'));
       setLoading(false);
     }
   };
@@ -136,7 +101,7 @@ const WeatherGuide = () => {
    */
   const generateAISuggestions = async () => {
     if (!weather) {
-      setError(t.weatherNotAvailable);
+      setError(t('ai.weatherNotAvailable'));
       return;
     }
 
@@ -154,7 +119,7 @@ const WeatherGuide = () => {
       setLoadingAI(false);
     } catch (err) {
       console.error("AI suggestion error:", err);
-      setError(t.aiFailed);
+      setError(t('ai.aiFailed'));
       setLoadingAI(false);
     }
   };
@@ -179,7 +144,7 @@ const WeatherGuide = () => {
 
   // ⭐ Get translated crop name
   const getCropName = (crop) => {
-    return t[crop] || crop.charAt(0).toUpperCase() + crop.slice(1);
+    return t(`crops.${crop}`) || crop.charAt(0).toUpperCase() + crop.slice(1);
   };
 
   // Loading state
@@ -188,8 +153,8 @@ const WeatherGuide = () => {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <Loader className="w-16 h-16 text-green-600 animate-spin mx-auto mb-4" />
-          <p className="text-xl text-gray-700">{t.fetchingWeather}</p>
-          <p className="text-sm text-gray-500 mt-2">{t.gettingLocation}</p>
+          <p className="text-xl text-gray-700">{t('weather.fetchingWeather')}</p>
+          <p className="text-sm text-gray-500 mt-2">{t('weather.gettingLocation')}</p>
         </div>
       </div>
     );
@@ -206,16 +171,16 @@ const WeatherGuide = () => {
             </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                {t.title}
+                {t('title')}
               </h1>
-              <p className="text-gray-600">{t.subtitle}</p>
+              <p className="text-gray-600">{t('subtitle')}</p>
             </div>
           </div>
           <button
             onClick={getUserLocation}
             disabled={loading}
             className="bg-green-600 hover:bg-green-700 text-white p-3 rounded-xl transition-colors disabled:opacity-50"
-            title={t.refreshWeather}
+            title={t('weather.refreshWeather')}
           >
             <RefreshCw className={`w-6 h-6 ${loading ? "animate-spin" : ""}`} />
           </button>
@@ -257,31 +222,31 @@ const WeatherGuide = () => {
                   </div>
                 </div>
                 <p className="text-sm opacity-90">
-                  {t.feelsLike} {Math.round(weather.main.feels_like)}°C
+                  {t('current.feelsLike')} {Math.round(weather.main.feels_like)}°C
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <Droplets className="w-6 h-6 mb-2" />
-                  <p className="text-sm opacity-90">{t.humidity}</p>
+                  <p className="text-sm opacity-90">{t('current.humidity')}</p>
                   <p className="text-2xl font-bold">{weather.main.humidity}%</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <Wind className="w-6 h-6 mb-2" />
-                  <p className="text-sm opacity-90">{t.windSpeed}</p>
+                  <p className="text-sm opacity-90">{t('current.windSpeed')}</p>
                   <p className="text-2xl font-bold">{weather.wind.speed} m/s</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <Eye className="w-6 h-6 mb-2" />
-                  <p className="text-sm opacity-90">{t.visibility}</p>
+                  <p className="text-sm opacity-90">{t('current.visibility')}</p>
                   <p className="text-2xl font-bold">
                     {(weather.visibility / 1000).toFixed(1)} km
                   </p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
                   <Gauge className="w-6 h-6 mb-2" />
-                  <p className="text-sm opacity-90">{t.pressure}</p>
+                  <p className="text-sm opacity-90">{t('current.pressure')}</p>
                   <p className="text-2xl font-bold">
                     {weather.main.pressure} hPa
                   </p>
@@ -314,7 +279,7 @@ const WeatherGuide = () => {
           {/* 5-Day Forecast */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              {t.forecast5Day}
+              {t('forecast.title')}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {forecast.map((day, index) => (
@@ -344,13 +309,13 @@ const WeatherGuide = () => {
           {/* AI Crop Suggestions */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              🤖 {t.aiSuggestions}
+              🤖 {t('ai.title')}
             </h2>
 
             {/* Crop Selection */}
             <div className="mb-4">
               <label className="block font-semibold text-gray-700 mb-2">
-                {t.selectCrop}
+                {t('ai.selectCrop')}
               </label>
               <div className="flex flex-wrap gap-3">
                 {CROPS.map((crop) => (
@@ -376,14 +341,14 @@ const WeatherGuide = () => {
             {/* Growth Stage Selection */}
             <div className="mb-4">
               <label className="block font-semibold text-gray-700 mb-2">
-                {t.growthStageLabel}
+                {t('ai.growthStageLabel')}
               </label>
               <select
                 value={growthStage}
                 onChange={(e) => setGrowthStage(e.target.value)}
                 className="w-full md:w-auto px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-600 focus:outline-none"
               >
-                <option value="">{t.selectGrowthStage}</option>
+                <option value="">{t('ai.selectGrowthStage')}</option>
                 {getGrowthStages().map((stage) => (
                   <option key={stage} value={stage}>
                     {stage}
@@ -401,10 +366,10 @@ const WeatherGuide = () => {
               {loadingAI ? (
                 <>
                   <Loader className="w-5 h-5 animate-spin" />
-                  {t.analyzing}
+                  {t('ai.analyzing')}
                 </>
               ) : (
-                <>✨ {t.getAiSuggestions}</>
+                <>✨ {t('ai.getAiSuggestions')}</>
               )}
             </button>
 
@@ -420,7 +385,7 @@ const WeatherGuide = () => {
             {/* Show message if no suggestions yet */}
             {!aiSuggestions && !loadingAI && (
               <div className="text-center text-gray-500 py-8">
-                <p>{t.noSuggestionsYet}</p>
+                <p>{t('ai.noSuggestionsYet')}</p>
               </div>
             )}
           </div>

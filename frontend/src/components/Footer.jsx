@@ -1,84 +1,274 @@
+// import { motion } from 'framer-motion';
+// import { useTranslation } from '../hooks/useTranslation';
+// import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+// import Tractor from '../assets/tractor.mp4'; // Placeholder for animated video
+
+// const Footer = () => {
+//   const { t } = useTranslation({
+//     // Social Proof Banner
+//     socialProof1: 'Ramesh earned ₹4.2L with smart crop recommendations',
+//     socialProof2: 'Priya saved her entire crop with AI disease detection',
+//     socialProof3: 'Harjeet gained ₹2.8L using market intelligence',
+//     socialProof4: 'Lakshmi increased yield to 42 quintals/acre',
+//     socialProof5: '10,000+ farmers trust our platform',
+    
+//     // Footer Sections
+//     aboutTitle: 'About Kissan',
+//     aboutDesc: 'Empowering Indian farmers with AI-powered technology to increase yields, reduce costs, and build sustainable farming practices.',
+    
+//     quickLinksTitle: 'Quick Links',
+//     features: 'Features',
+//     howItWorks: 'How It Works',
+//     pricing: 'Pricing',
+//     support: 'Support',
+//     blog: 'Blog',
+//     faqs: 'FAQs',
+    
+//     resourcesTitle: 'Resources',
+//     cropGuide: 'Crop Guide',
+//     diseaseLibrary: 'Disease Library',
+//     marketPrices: 'Market Prices',
+//     weatherForecast: 'Weather Forecast',
+//     govSchemes: 'Government Schemes',
+    
+//     contactTitle: 'Contact Us',
+//     email: 'Email',
+//     phone: 'Phone',
+//     address: 'Address',
+//     addressText: 'India',
+    
+//     followUs: 'Follow Us',
+//     newsletter: 'Subscribe to Newsletter',
+//     newsletterPlaceholder: 'Enter your email',
+//     subscribe: 'Subscribe',
+    
+//     copyright: '© 2025 Kissan. All rights reserved.',
+//     terms: 'Terms of Service',
+//     privacy: 'Privacy Policy',
+    
+//     madeWith: 'Made with',
+//     forFarmers: 'for Indian Farmers'
+//   });
+
+//   const socialProofs = [
+//     t.socialProof1,
+//     t.socialProof2,
+//     t.socialProof3,
+//     t.socialProof4,
+//     t.socialProof5,
+//   ];
+
+//   const quickLinks = [
+//     { name: t.features, href: '#features' },
+//     { name: t.howItWorks, href: '#how-it-works' },
+//     { name: t.pricing, href: '#pricing' },
+//     { name: t.support, href: '#support' },
+//     { name: t.blog, href: '#blog' },
+//     { name: t.faqs, href: '#faqs' },
+//   ];
+
+//   const resources = [
+//     { name: t.cropGuide, href: '#crop-guide' },
+//     { name: t.diseaseLibrary, href: '#disease-library' },
+//     { name: t.marketPrices, href: '#market-prices' },
+//     { name: t.weatherForecast, href: '#weather' },
+//     { name: t.govSchemes, href: '#schemes' },
+//   ];
+
+//   return (
+//     <footer className="bg-gradient-to-b from-white to-green-50">
+       
+     
+      
+//       {/* Video Section */}
+//       <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden">
+//         <div className="absolute inset-0 bg-gradient-to-b from-blue-200/30 to-green-100/30 z-10"></div>
+//         <video 
+//           src={Tractor} 
+//           autoPlay 
+//           loop 
+//           muted 
+//           playsInline
+//           className="w-full h-full object-cover"
+//         />
+//         {/* Decorative overlay shapes */}
+//         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent z-20"></div>
+//       </div>
+      
+
+//       {/* Main Footer Content */}
+//       <div className="max-w-7xl mx-auto px-6 py-12">
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+//           {/* About Section */}
+//           <div>
+//             <h3 className="text-2xl font-bold text-green-800 mb-4">
+//               🌾 {t.aboutTitle}
+//             </h3>
+//             <p className="text-gray-700 mb-6 leading-relaxed">
+//               {t.aboutDesc}
+//             </p>
+//             <div className="flex space-x-4">
+//               <a href="#" className="text-green-600 hover:text-green-700 transition-colors">
+//                 <Facebook size={24} />
+//               </a>
+//               <a href="#" className="text-green-600 hover:text-green-700 transition-colors">
+//                 <Twitter size={24} />
+//               </a>
+//               <a href="#" className="text-green-600 hover:text-green-700 transition-colors">
+//                 <Instagram size={24} />
+//               </a>
+//               <a href="#" className="text-green-600 hover:text-green-700 transition-colors">
+//                 <Youtube size={24} />
+//               </a>
+//             </div>
+//           </div>
+
+//           {/* Quick Links */}
+//           <div>
+//             <h3 className="text-xl font-bold text-green-800 mb-4">
+//               {t.quickLinksTitle}
+//             </h3>
+//             <ul className="space-y-2">
+//               {quickLinks.map((link) => (
+//                 <li key={link.name}>
+//                   <a
+//                     href={link.href}
+//                     className="text-gray-700 hover:text-green-600 transition-colors"
+//                   >
+//                     {link.name}
+//                   </a>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+
+//           {/* Resources */}
+//           <div>
+//             <h3 className="text-xl font-bold text-green-800 mb-4">
+//               {t.resourcesTitle}
+//             </h3>
+//             <ul className="space-y-2">
+//               {resources.map((resource) => (
+//                 <li key={resource.name}>
+//                   <a
+//                     href={resource.href}
+//                     className="text-gray-700 hover:text-green-600 transition-colors"
+//                   >
+//                     {resource.name}
+//                   </a>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+
+//           {/* Contact & Newsletter */}
+//           <div>
+//             <h3 className="text-xl font-bold text-green-800 mb-4">
+//               {t.contactTitle}
+//             </h3>
+//             <div className="space-y-3 mb-6">
+//               <div className="flex items-center space-x-2 text-gray-700">
+//                 <Mail size={18} className="text-green-600" />
+//                 <span className="text-sm">support@kissan.com</span>
+//               </div>
+//               <div className="flex items-center space-x-2 text-gray-700">
+//                 <Phone size={18} className="text-green-600" />
+//                 <span className="text-sm">+91 1800-XXX-XXXX</span>
+//               </div>
+//               <div className="flex items-center space-x-2 text-gray-700">
+//                 <MapPin size={18} className="text-green-600" />
+//                 <span className="text-sm">{t.addressText}</span>
+//               </div>
+//             </div>
+
+//             {/* Newsletter */}
+//             <div>
+//               <h4 className="font-semibold text-green-800 mb-2">
+//                 {t.newsletter}
+//               </h4>
+//               <div className="flex">
+//                 <input
+//                   type="email"
+//                   placeholder={t.newsletterPlaceholder}
+//                   className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+//                 />
+//                 <button className="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition-colors">
+//                   {t.subscribe}
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Divider */}
+//         <div className="border-t border-gray-300 my-8"></div>
+
+//         {/* Bottom Footer */}
+//         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+//           <p className="text-gray-600 text-sm">
+//             {t.copyright}
+//           </p>
+//           <div className="flex space-x-6 text-sm">
+//             <a href="#" className="text-gray-600 hover:text-green-600 transition-colors">
+//               {t.terms}
+//             </a>
+//             <a href="#" className="text-gray-600 hover:text-green-600 transition-colors">
+//               {t.privacy}
+//             </a>
+//           </div>
+//           <p className="text-gray-600 text-sm">
+//             {t.madeWith} <span className="text-red-500">❤️</span> {t.forFarmers}
+//           </p>
+//         </div>
+//       </div>
+//     </footer>
+//   );
+// };
+
+// export default Footer;
+
+// src/components/Footer.jsx
+// Footer component with i18n support
+
 import { motion } from 'framer-motion';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from 'react-i18next'; // ⭐ Import from react-i18next
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
-import Tractor from '../assets/tractor.mp4'; // Placeholder for animated video
+import Tractor from '../assets/tractor.mp4';
 
 const Footer = () => {
-  const { t } = useTranslation({
-    // Social Proof Banner
-    socialProof1: 'Ramesh earned ₹4.2L with smart crop recommendations',
-    socialProof2: 'Priya saved her entire crop with AI disease detection',
-    socialProof3: 'Harjeet gained ₹2.8L using market intelligence',
-    socialProof4: 'Lakshmi increased yield to 42 quintals/acre',
-    socialProof5: '10,000+ farmers trust our platform',
-    
-    // Footer Sections
-    aboutTitle: 'About Kissan',
-    aboutDesc: 'Empowering Indian farmers with AI-powered technology to increase yields, reduce costs, and build sustainable farming practices.',
-    
-    quickLinksTitle: 'Quick Links',
-    features: 'Features',
-    howItWorks: 'How It Works',
-    pricing: 'Pricing',
-    support: 'Support',
-    blog: 'Blog',
-    faqs: 'FAQs',
-    
-    resourcesTitle: 'Resources',
-    cropGuide: 'Crop Guide',
-    diseaseLibrary: 'Disease Library',
-    marketPrices: 'Market Prices',
-    weatherForecast: 'Weather Forecast',
-    govSchemes: 'Government Schemes',
-    
-    contactTitle: 'Contact Us',
-    email: 'Email',
-    phone: 'Phone',
-    address: 'Address',
-    addressText: 'India',
-    
-    followUs: 'Follow Us',
-    newsletter: 'Subscribe to Newsletter',
-    newsletterPlaceholder: 'Enter your email',
-    subscribe: 'Subscribe',
-    
-    copyright: '© 2025 Kissan. All rights reserved.',
-    terms: 'Terms of Service',
-    privacy: 'Privacy Policy',
-    
-    madeWith: 'Made with',
-    forFarmers: 'for Indian Farmers'
-  });
+  // ⭐ Load translations from 'landing' namespace, footer section
+  const { t } = useTranslation('landing');
 
+  // Social proof messages array (translated)
   const socialProofs = [
-    t.socialProof1,
-    t.socialProof2,
-    t.socialProof3,
-    t.socialProof4,
-    t.socialProof5,
+    t('footer.socialProof1'),
+    t('footer.socialProof2'),
+    t('footer.socialProof3'),
+    t('footer.socialProof4'),
+    t('footer.socialProof5'),
   ];
 
+  // Quick links array with translated labels
   const quickLinks = [
-    { name: t.features, href: '#features' },
-    { name: t.howItWorks, href: '#how-it-works' },
-    { name: t.pricing, href: '#pricing' },
-    { name: t.support, href: '#support' },
-    { name: t.blog, href: '#blog' },
-    { name: t.faqs, href: '#faqs' },
+    { name: t('footer.features'), href: '#features' },
+    { name: t('footer.howItWorks'), href: '#how-it-works' },
+    { name: t('footer.pricing'), href: '#pricing' },
+    { name: t('footer.support'), href: '#support' },
+    { name: t('footer.blog'), href: '#blog' },
+    { name: t('footer.faqs'), href: '#faqs' },
   ];
 
+  // Resources array with translated labels
   const resources = [
-    { name: t.cropGuide, href: '#crop-guide' },
-    { name: t.diseaseLibrary, href: '#disease-library' },
-    { name: t.marketPrices, href: '#market-prices' },
-    { name: t.weatherForecast, href: '#weather' },
-    { name: t.govSchemes, href: '#schemes' },
+    { name: t('footer.cropGuide'), href: '#crop-guide' },
+    { name: t('footer.diseaseLibrary'), href: '#disease-library' },
+    { name: t('footer.marketPrices'), href: '#market-prices' },
+    { name: t('footer.weatherForecast'), href: '#weather' },
+    { name: t('footer.govSchemes'), href: '#schemes' },
   ];
 
   return (
     <footer className="bg-gradient-to-b from-white to-green-50">
-       
-     
       
       {/* Video Section */}
       <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden">
@@ -94,19 +284,21 @@ const Footer = () => {
         {/* Decorative overlay shapes */}
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent z-20"></div>
       </div>
-      
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          
           {/* About Section */}
           <div>
             <h3 className="text-2xl font-bold text-green-800 mb-4">
-              🌾 {t.aboutTitle}
+              🌾 {t('footer.aboutTitle')} {/* ⭐ Translated title */}
             </h3>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              {t.aboutDesc}
+              {t('footer.aboutDesc')} {/* ⭐ Translated description */}
             </p>
+            
+            {/* Social Media Links */}
             <div className="flex space-x-4">
               <a href="#" className="text-green-600 hover:text-green-700 transition-colors">
                 <Facebook size={24} />
@@ -126,7 +318,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="text-xl font-bold text-green-800 mb-4">
-              {t.quickLinksTitle}
+              {t('footer.quickLinksTitle')} {/* ⭐ Translated */}
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
@@ -135,7 +327,7 @@ const Footer = () => {
                     href={link.href}
                     className="text-gray-700 hover:text-green-600 transition-colors"
                   >
-                    {link.name}
+                    {link.name} {/* ⭐ Each link is translated */}
                   </a>
                 </li>
               ))}
@@ -145,7 +337,7 @@ const Footer = () => {
           {/* Resources */}
           <div>
             <h3 className="text-xl font-bold text-green-800 mb-4">
-              {t.resourcesTitle}
+              {t('footer.resourcesTitle')} {/* ⭐ Translated */}
             </h3>
             <ul className="space-y-2">
               {resources.map((resource) => (
@@ -154,7 +346,7 @@ const Footer = () => {
                     href={resource.href}
                     className="text-gray-700 hover:text-green-600 transition-colors"
                   >
-                    {resource.name}
+                    {resource.name} {/* ⭐ Each resource is translated */}
                   </a>
                 </li>
               ))}
@@ -164,8 +356,10 @@ const Footer = () => {
           {/* Contact & Newsletter */}
           <div>
             <h3 className="text-xl font-bold text-green-800 mb-4">
-              {t.contactTitle}
+              {t('footer.contactTitle')} {/* ⭐ Translated */}
             </h3>
+            
+            {/* Contact Information */}
             <div className="space-y-3 mb-6">
               <div className="flex items-center space-x-2 text-gray-700">
                 <Mail size={18} className="text-green-600" />
@@ -177,23 +371,25 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-gray-700">
                 <MapPin size={18} className="text-green-600" />
-                <span className="text-sm">{t.addressText}</span>
+                <span className="text-sm">
+                  {t('footer.addressText')} {/* ⭐ Translated address */}
+                </span>
               </div>
             </div>
 
-            {/* Newsletter */}
+            {/* Newsletter Subscription */}
             <div>
               <h4 className="font-semibold text-green-800 mb-2">
-                {t.newsletter}
+                {t('footer.newsletter')} {/* ⭐ Translated */}
               </h4>
               <div className="flex">
                 <input
                   type="email"
-                  placeholder={t.newsletterPlaceholder}
+                  placeholder={t('footer.newsletterPlaceholder')}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button className="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition-colors">
-                  {t.subscribe}
+                  {t('footer.subscribe')} {/* ⭐ Translated button */}
                 </button>
               </div>
             </div>
@@ -206,18 +402,22 @@ const Footer = () => {
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-600 text-sm">
-            {t.copyright}
+            {t('footer.copyright')} {/* ⭐ Translated copyright */}
           </p>
+          
+          {/* Legal Links */}
           <div className="flex space-x-6 text-sm">
             <a href="#" className="text-gray-600 hover:text-green-600 transition-colors">
-              {t.terms}
+              {t('footer.terms')} {/* ⭐ Translated */}
             </a>
             <a href="#" className="text-gray-600 hover:text-green-600 transition-colors">
-              {t.privacy}
+              {t('footer.privacy')} {/* ⭐ Translated */}
             </a>
           </div>
+          
+          {/* Made with Love */}
           <p className="text-gray-600 text-sm">
-            {t.madeWith} <span className="text-red-500">❤️</span> {t.forFarmers}
+            {t('footer.madeWith')} <span className="text-red-500">❤️</span> {t('footer.forFarmers')}
           </p>
         </div>
       </div>

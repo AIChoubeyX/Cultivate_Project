@@ -1,0 +1,58 @@
+{
+  "app": {
+    "name": "Kissan",
+    "tagline": "Smart Farming Solutions"
+  },
+  
+  "nav": {
+    "home": "Home",
+    "weather": "Weather",
+    "crops": "Crops",
+    "diseases": "Diseases",
+    "market": "Market",
+    "profile": "Profile",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout"
+  },
+  
+  "actions": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "refresh": "Refresh",
+    "search": "Search",
+    "filter": "Filter",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "upload": "Upload",
+    "download": "Download"
+  },
+  
+  "messages": {
+    "success": "Success!",
+    "error": "Something went wrong",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "noData": "No data available",
+    "tryAgain": "Please try again",
+    "confirmDelete": "Are you sure you want to delete?",
+    "confirmLogout": "Are you sure you want to logout?",
+    "saved": "Saved successfully",
+    "updated": "Updated successfully",
+    "deleted": "Deleted successfully"
+  },
+  
+  "time": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month"
+  }
+}

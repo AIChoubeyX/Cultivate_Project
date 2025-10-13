@@ -1,0 +1,88 @@
+{
+  "hero": {
+    "appName": "Kissan",
+    "tagline": "AI-Powered Farming Assistant for Every Farmer",
+    "description": "Harness the power of artificial intelligence to optimize your farming operations, increase yields, and make data-driven decisions for a sustainable future.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  
+  "features": {
+    "mainTitle": "Empowering Indian Farmers",
+    "mainSubtitle": "Real stories of farmers who transformed their livelihood with smart technology",
+    
+    "feature1": {
+      "title": "Smart Crop Recommendation",
+      "farmer": "Ramesh Patil",
+      "location": "Nashik, Maharashtra",
+      "story": "For 30 years, Ramesh grew onions on his 4-acre farm. Erratic monsoons meant unpredictable harvests and losses. Our AI analyzed his soil and climate data, recommending pomegranates with chickpea intercropping instead.",
+      "result": "₹4.2 lakhs from 2 acres",
+      "impact": "—triple his previous income, with 40% less water usage. His son is now returning home to expand the business."
+    },
+    
+    "feature2": {
+      "title": "AI-Powered Disease Detection",
+      "farmer": "Priya Reddy",
+      "location": "Warangal, Telangana",
+      "story": "Priya lost ₹85,000 when disease spread across her chili farm before she could reach an agriculture officer. Next season, she spotted white spots on leaves at 7 AM, clicked a photo, and uploaded it.",
+      "result": "30-second diagnosis: Powdery Mildew",
+      "impact": "The app suggested organic treatment in Telugu. She acted within 2 hours and saved her entire crop. Used it 7 times that season, achieving 98% healthy yield and saving ₹18,000 on pesticides."
+    },
+    
+    "feature3": {
+      "title": "Real-Time Market Intelligence",
+      "farmer": "Harjeet Singh",
+      "location": "Kolar, Karnataka",
+      "story": "At Kolar mandi, traders offered Harjeet ₹6/kg for his 35 quintal tomato harvest. He checked our app—it showed Malur APMC offering ₹10.50/kg. He drove 28 km and earned",
+      "result": "₹1.57 lakhs extra in one trip",
+      "impact": "Now he plans harvests using price forecasts and discovered cherry tomatoes fetch 40% premium. Annual income increased by ₹2.8 lakhs."
+    },
+    
+    "feature4": {
+      "title": "24/7 AI Farming Assistant",
+      "farmer": "Lakshmi Devi",
+      "location": "Araria, Bihar",
+      "story": "A widow managing 3 acres alone, Lakshmi struggled with farming decisions. Male officers rarely helped, and consultants charged ₹500-800 per visit. At 8 PM, she asked our AI in Hindi: \"Dhan ke paudhe par bhure daag, kya karein?\"",
+      "result": "90-second diagnosis & treatment plan",
+      "impact": "That season, she consulted the AI 23 times—for pests, schemes, and more. Yield jumped to 42 quintals/acre (vs 35 district average). She saved ₹15,000 in consultation fees and gained confidence to farm independently."
+    }
+  },
+  
+  "footer": {
+    "socialProof1": "Ramesh earned ₹4.2L with smart crop recommendations",
+    "socialProof2": "Priya saved her entire crop with AI disease detection",
+    "socialProof3": "Harjeet gained ₹2.8L using market intelligence",
+    "socialProof4": "Lakshmi increased yield to 42 quintals/acre",
+    "socialProof5": "10,000+ farmers trust our platform",
+    
+    "aboutTitle": "About Kissan",
+    "aboutDesc": "Empowering Indian farmers with AI-powered technology to increase yields, reduce costs, and build sustainable farming practices.",
+    
+    "quickLinksTitle": "Quick Links",
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "support": "Support",
+    "blog": "Blog",
+    "faqs": "FAQs",
+    
+    "resourcesTitle": "Resources",
+    "cropGuide": "Crop Guide",
+    "diseaseLibrary": "Disease Library",
+    "marketPrices": "Market Prices",
+    "weatherForecast": "Weather Forecast",
+    "govSchemes": "Government Schemes",
+    
+    "contactTitle": "Contact Us",
+    "newsletter": "Subscribe to Newsletter",
+    "newsletterPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "addressText": "India",
+    
+    "copyright": "© 2025 Kissan. All rights reserved.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "madeWith": "Made with",
+    "forFarmers": "for Indian Farmers"
+  }
+}

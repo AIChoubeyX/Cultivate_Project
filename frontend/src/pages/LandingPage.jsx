@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from 'react-i18next';
 import bgimage from '../assets/assests.jpeg';
 import FarmingFeatures from '../components/FarmingFeatures';
 import Footer from '../components/Footer';
@@ -14,17 +14,7 @@ function LandingPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const { t } = useTranslation({
-    appName: 'Kissan',
-    tagline: 'AI-Powered Farming Assistant for Every Farmer',
-    description:
-      'Harness the power of artificial intelligence to optimize your farming operations, increase yields, and make data-driven decisions for a sustainable future.',
-    getStarted: 'Get Started',
-    learnMore: 'Learn More',
-    activeFarmers: 'Active Farmers',
-    accuracyRate: 'Accuracy Rate',
-    yieldIncrease: 'Yield Increase',
-  });
+  const { t } = useTranslation('landing');
 
   const handleGetStarted = () => {
     navigate('/auth');
@@ -43,10 +33,10 @@ function LandingPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
-            {t.appName || 'Kissan'}
+            {t('hero.appName')}
           </h1>
-          <p className="text-xl md:text-2xl text-green-100 mb-8">{t.tagline}</p>
-          <p className="text-lg text-green-50 mb-10">{t.description}</p>
+          <p className="text-xl md:text-2xl text-green-100 mb-8">{t('hero.tagline')}</p>
+          <p className="text-lg text-green-50 mb-10">{t('hero.description')}</p>
 
           <div className="flex justify-center space-x-6">
             <Link to="/home" onClick={handleGetStarted}>
@@ -54,7 +44,7 @@ function LandingPage() {
                 whileHover={{ scale: 1.05 }}
                 className="px-8 py-4 bg-green-600 text-white font-semibold rounded-2xl shadow-lg hover:bg-green-700 transition-all duration-300"
               >
-                {t.getStarted}
+                {t('hero.getStarted')}
               </motion.button>
             </Link>
 
@@ -62,7 +52,7 @@ function LandingPage() {
               whileHover={{ scale: 1.05 }}
               className="px-8 py-4 bg-white text-green-700 font-semibold rounded-2xl shadow-lg border-2 border-green-200 hover:border-green-400 transition-all duration-300"
             >
-              {t.learnMore}
+              {t('hero.learnMore')}
             </motion.button>
           </div>
         </div>

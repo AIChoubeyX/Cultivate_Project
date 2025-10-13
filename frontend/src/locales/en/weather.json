@@ -1,0 +1,50 @@
+{
+  "title": "Farmer Weather Assistant",
+  "subtitle": "AI-powered crop care suggestions",
+  
+  "weather": {
+    "fetchingWeather": "Fetching weather data...",
+    "gettingLocation": "Getting your location and latest weather",
+    "enableLocation": "Please enable location access for accurate weather data",
+    "geoNotSupported": "Geolocation not supported by your browser",
+    "weatherFailed": "Failed to fetch weather data. Please check your internet connection.",
+    "refreshWeather": "Refresh weather data"
+  },
+  
+  "current": {
+    "feelsLike": "Feels like",
+    "humidity": "Humidity",
+    "windSpeed": "Wind Speed",
+    "visibility": "Visibility",
+    "pressure": "Pressure"
+  },
+  
+  "forecast": {
+    "title": "5-Day Forecast"
+  },
+  
+  "ai": {
+    "title": "AI Crop Care Suggestions",
+    "selectCrop": "Select Your Crop:",
+    "growthStageLabel": "Growth Stage (Optional):",
+    "selectGrowthStage": "Select growth stage...",
+    "getAiSuggestions": "Get AI Suggestions",
+    "analyzing": "Analyzing...",
+    "weatherNotAvailable": "Weather data not available",
+    "aiFailed": "Failed to generate AI suggestions. Please try again.",
+    "noSuggestionsYet": "Select a crop and click 'Get AI Suggestions' to receive personalized farming advice"
+  },
+  
+  "crops": {
+    "wheat": "Wheat",
+    "rice": "Rice",
+    "cotton": "Cotton",
+    "sugarcane": "Sugarcane",
+    "tomato": "Tomato",
+    "potato": "Potato",
+    "onion": "Onion",
+    "maize": "Maize",
+    "bajra": "Bajra",
+    "jowar": "Jowar"
+  }
+}
