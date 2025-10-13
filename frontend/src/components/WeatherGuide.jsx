@@ -1,347 +1,433 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Sun, 
-  Cloud, 
-  CloudRain, 
-  CloudSnow, 
-  Wind, 
-  Droplets, 
-  ThermometerSun,
+import React, { useState, useEffect } from "react";
+import {
+  Cloud,
+  Droplets,
+  Wind,
   Eye,
-  Compass,
-  Calendar,
+  Gauge,
+  Sunrise,
+  Sunset,
   MapPin,
-  TrendingUp,
-  AlertTriangle,
-  Leaf
-} from 'lucide-react';
+  RefreshCw,
+  Sprout,
+  AlertCircle,
+  Loader,
+} from "lucide-react";
+import weatherService from "../services/weatherService";
+import { CROPS, GROWTH_STAGES } from "../utils/constants";
+import { useTranslation } from "../hooks/useTranslation";
 
-const weatherData = {
-  current: {
-    location: 'Punjab, India',
-    temperature: 28,
-    condition: 'Sunny',
-    humidity: 65,
-    windSpeed: 12,
-    visibility: 10,
-    pressure: 1013,
-    uvIndex: 6,
-    feelsLike: 32
-  },
-  forecast: [
-    { day: 'Today', date: 'Mar 15', temp: '28°C', low: '18°C', condition: 'Sunny', icon: Sun, precipitation: 0 },
-    { day: 'Tomorrow', date: 'Mar 16', temp: '26°C', low: '16°C', condition: 'Cloudy', icon: Cloud, precipitation: 10 },
-    { day: 'Wednesday', date: 'Mar 17', temp: '24°C', low: '14°C', condition: 'Rainy', icon: CloudRain, precipitation: 80 },
-    { day: 'Thursday', date: 'Mar 18', temp: '22°C', low: '12°C', condition: 'Rainy', icon: CloudRain, precipitation: 90 },
-    { day: 'Friday', date: 'Mar 19', temp: '25°C', low: '15°C', condition: 'Cloudy', icon: Cloud, precipitation: 20 },
-    { day: 'Saturday', date: 'Mar 20', temp: '27°C', low: '17°C', condition: 'Sunny', icon: Sun, precipitation: 5 },
-    { day: 'Sunday', date: 'Mar 21', temp: '29°C', low: '19°C', condition: 'Sunny', icon: Sun, precipitation: 0 }
-  ],
-  hourly: [
-    { time: '12 PM', temp: 28, condition: 'Sunny', icon: Sun },
-    { time: '1 PM', temp: 30, condition: 'Sunny', icon: Sun },
-    { time: '2 PM', temp: 32, condition: 'Sunny', icon: Sun },
-    { time: '3 PM', temp: 31, condition: 'Partly Cloudy', icon: Cloud },
-    { time: '4 PM', temp: 29, condition: 'Cloudy', icon: Cloud },
-    { time: '5 PM', temp: 27, condition: 'Cloudy', icon: Cloud }
-  ]
-};
+const WeatherGuide = () => {
+  const [location, setLocation] = useState(null);
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedCrop, setSelectedCrop] = useState("wheat");
+  const [growthStage, setGrowthStage] = useState("");
+  const [aiSuggestions, setAiSuggestions] = useState("");
+  const [loadingAI, setLoadingAI] = useState(false);
 
-const cultivationTips = [
-  {
-    crop: 'Rice',
-    season: 'Kharif',
-    tips: [
-      'Ideal temperature: 20-35°C',
-      'Requires 150-200cm annual rainfall',
-      'Plant during monsoon season (June-July)',
-      'Maintain 2-5cm water level in fields'
-    ],
-    currentAdvice: 'Good weather for rice cultivation. Maintain proper water levels.',
-    status: 'favorable'
-  },
-  {
-    crop: 'Wheat',
-    season: 'Rabi',
-    tips: [
-      'Ideal temperature: 15-25°C',
-      'Requires 75-100cm annual rainfall',
-      'Sow in October-December',
-      'Harvest in March-April'
-    ],
-    currentAdvice: 'Temperature is getting warm for wheat. Consider early harvest.',
-    status: 'caution'
-  },
-  {
-    crop: 'Cotton',
-    season: 'Kharif',
-    tips: [
-      'Ideal temperature: 21-30°C',
-      'Requires 50-100cm rainfall',
-      'Plant in April-June',
-      'Needs 180-200 frost-free days'
-    ],
-    currentAdvice: 'Perfect conditions for cotton planting. Prepare your fields.',
-    status: 'favorable'
+  // ⭐ Translation hook
+  const { t } = useTranslation({
+    title: "Farmer Weather Assistant",
+    subtitle: "AI-powered crop care suggestions",
+    fetchingWeather: "Fetching weather data...",
+    gettingLocation: "Getting your location and latest weather",
+    enableLocation: "Please enable location access for accurate weather data",
+    geoNotSupported: "Geolocation not supported by your browser",
+    weatherFailed: "Failed to fetch weather data. Please check your internet connection.",
+    feelsLike: "Feels like",
+    humidity: "Humidity",
+    windSpeed: "Wind Speed",
+    visibility: "Visibility",
+    pressure: "Pressure",
+    forecast5Day: "5-Day Forecast",
+    aiSuggestions: "AI Crop Care Suggestions",
+    selectCrop: "Select Your Crop:",
+    growthStageLabel: "Growth Stage (Optional):",
+    selectGrowthStage: "Select growth stage...",
+    getAiSuggestions: "Get AI Suggestions",
+    analyzing: "Analyzing...",
+    weatherNotAvailable: "Weather data not available",
+    aiFailed: "Failed to generate AI suggestions. Please try again.",
+    noSuggestionsYet: "Select a crop and click 'Get AI Suggestions' to receive personalized farming advice",
+    refreshWeather: "Refresh weather data",
+    // Crop names
+    wheat: "Wheat",
+    rice: "Rice",
+    cotton: "Cotton",
+    sugarcane: "Sugarcane",
+    tomato: "Tomato",
+    potato: "Potato",
+    onion: "Onion",
+    maize: "Maize",
+    bajra: "Bajra",
+    jowar: "Jowar"
+  });
+
+  // Get user's location on component mount
+  useEffect(() => {
+    getUserLocation();
+  }, []);
+
+  /**
+   * Get user's GPS location
+   */
+  const getUserLocation = () => {
+    setLoading(true);
+    setError("");
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const loc = {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          };
+          setLocation(loc);
+          fetchWeatherData(loc);
+        },
+        (err) => {
+          console.error("Geolocation error:", err);
+          setError(t.enableLocation);
+          setLoading(false);
+
+          // Fallback to demo location (Delhi)
+          const demoLoc = { lat: 28.6139, lon: 77.209 };
+          setLocation(demoLoc);
+          fetchWeatherData(demoLoc);
+        }
+      );
+    } else {
+      setError(t.geoNotSupported);
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Fetch weather data from backend API
+   */
+  const fetchWeatherData = async (loc) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await weatherService.getCombinedWeather(loc.lat, loc.lon);
+
+      setWeather(data.current);
+
+      // Process forecast - get one per day
+      const dailyForecast = data.forecast.list
+        .filter((_, index) => index % 8 === 0)
+        .slice(0, 5);
+      setForecast(dailyForecast);
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Weather fetch error:", err);
+      setError(t.weatherFailed);
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Generate AI suggestions based on weather and crop
+   */
+  const generateAISuggestions = async () => {
+    if (!weather) {
+      setError(t.weatherNotAvailable);
+      return;
+    }
+
+    try {
+      setLoadingAI(true);
+      setError("");
+
+      const response = await weatherService.getAISuggestions(
+        weather,
+        selectedCrop,
+        growthStage || null
+      );
+
+      setAiSuggestions(response.suggestion);
+      setLoadingAI(false);
+    } catch (err) {
+      console.error("AI suggestion error:", err);
+      setError(t.aiFailed);
+      setLoadingAI(false);
+    }
+  };
+
+  /**
+   * Format timestamp to readable date
+   */
+  const formatDate = (timestamp) => {
+    return new Date(timestamp * 1000).toLocaleDateString("en-IN", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  /**
+   * Get available growth stages for selected crop
+   */
+  const getGrowthStages = () => {
+    return GROWTH_STAGES[selectedCrop] || GROWTH_STAGES.default;
+  };
+
+  // ⭐ Get translated crop name
+  const getCropName = (crop) => {
+    return t[crop] || crop.charAt(0).toUpperCase() + crop.slice(1);
+  };
+
+  // Loading state
+  if (loading && !weather) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader className="w-16 h-16 text-green-600 animate-spin mx-auto mb-4" />
+          <p className="text-xl text-gray-700">{t.fetchingWeather}</p>
+          <p className="text-sm text-gray-500 mt-2">{t.gettingLocation}</p>
+        </div>
+      </div>
+    );
   }
-];
-
-function WeatherGuide() {
-  const [activeTab, setActiveTab] = useState('current');
-  const [selectedCrop, setSelectedCrop] = useState(cultivationTips[0]);
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'favorable': return 'text-green-600 bg-green-50 border-green-200';
-      case 'caution': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'warning': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
-
-  const getWeatherIcon = (condition) => {
-    switch (condition.toLowerCase()) {
-      case 'sunny': return Sun;
-      case 'cloudy': case 'partly cloudy': return Cloud;
-      case 'rainy': return CloudRain;
-      case 'snowy': return CloudSnow;
-      default: return Sun;
-    }
-  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Weather & Cultivation Guide</h1>
-          <p className="text-xl text-gray-600">Real-time weather data and farming recommendations</p>
-        </motion.div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-green-100 p-4 md:p-8">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto mb-8">
+        <div className="flex items-center justify-between bg-white rounded-2xl shadow-lg p-6">
+          <div className="flex items-center gap-3">
+            <div className="bg-green-600 p-3 rounded-xl">
+              <Sprout className="w-8 h-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                {t.title}
+              </h1>
+              <p className="text-gray-600">{t.subtitle}</p>
+            </div>
+          </div>
+          <button
+            onClick={getUserLocation}
+            disabled={loading}
+            className="bg-green-600 hover:bg-green-700 text-white p-3 rounded-xl transition-colors disabled:opacity-50"
+            title={t.refreshWeather}
+          >
+            <RefreshCw className={`w-6 h-6 ${loading ? "animate-spin" : ""}`} />
+          </button>
+        </div>
+      </div>
 
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-2xl p-2 shadow-lg border border-gray-100">
-            {['current', 'forecast', 'cultivation'].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                  activeTab === tab
-                    ? 'bg-sky-500 text-white shadow-md'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
+      {/* Error Alert */}
+      {error && (
+        <div className="max-w-6xl mx-auto mb-4 bg-red-100 border-l-4 border-red-500 p-4 rounded-lg">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-5 h-5 text-red-600" />
+            <p className="text-red-700">{error}</p>
           </div>
         </div>
+      )}
 
-        {/* Current Weather */}
-        {activeTab === 'current' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            {/* Main Weather Card */}
-            <div className="bg-gradient-to-br from-sky-400 to-sky-600 rounded-3xl p-8 text-white shadow-2xl">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <MapPin className="w-5 h-5" />
-                    <span className="text-sky-100">{weatherData.current.location}</span>
+      {weather && (
+        <div className="max-w-6xl mx-auto space-y-6">
+          {/* Current Weather Card */}
+          <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-2xl p-8 text-white">
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-5 h-5" />
+              <p className="text-lg">
+                {weather.name}, {weather.sys.country}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <Cloud className="w-16 h-16" />
+                  <div>
+                    <p className="text-6xl font-bold">
+                      {Math.round(weather.main.temp)}°C
+                    </p>
+                    <p className="text-xl capitalize">
+                      {weather.weather[0].description}
+                    </p>
                   </div>
-                  <div className="text-6xl font-bold mb-2">{weatherData.current.temperature}°C</div>
-                  <div className="text-xl text-sky-100">{weatherData.current.condition}</div>
-                  <div className="text-sky-100">Feels like {weatherData.current.feelsLike}°C</div>
                 </div>
-                <div className="text-right">
-                  <Sun className="w-24 h-24 text-yellow-300 mb-4" />
-                  <div className="text-sky-100">UV Index: {weatherData.current.uvIndex}</div>
+                <p className="text-sm opacity-90">
+                  {t.feelsLike} {Math.round(weather.main.feels_like)}°C
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Droplets className="w-6 h-6 mb-2" />
+                  <p className="text-sm opacity-90">{t.humidity}</p>
+                  <p className="text-2xl font-bold">{weather.main.humidity}%</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Wind className="w-6 h-6 mb-2" />
+                  <p className="text-sm opacity-90">{t.windSpeed}</p>
+                  <p className="text-2xl font-bold">{weather.wind.speed} m/s</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Eye className="w-6 h-6 mb-2" />
+                  <p className="text-sm opacity-90">{t.visibility}</p>
+                  <p className="text-2xl font-bold">
+                    {(weather.visibility / 1000).toFixed(1)} km
+                  </p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Gauge className="w-6 h-6 mb-2" />
+                  <p className="text-sm opacity-90">{t.pressure}</p>
+                  <p className="text-2xl font-bold">
+                    {weather.main.pressure} hPa
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Weather Details Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { icon: Droplets, label: 'Humidity', value: `${weatherData.current.humidity}%`, color: 'text-blue-600' },
-                { icon: Wind, label: 'Wind Speed', value: `${weatherData.current.windSpeed} km/h`, color: 'text-gray-600' },
-                { icon: Eye, label: 'Visibility', value: `${weatherData.current.visibility} km`, color: 'text-green-600' },
-                { icon: Compass, label: 'Pressure', value: `${weatherData.current.pressure} hPa`, color: 'text-purple-600' }
-              ].map((item, index) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
-                >
-                  <item.icon className={`w-8 h-8 ${item.color} mb-3`} />
-                  <div className="text-2xl font-bold text-gray-800 mb-1">{item.value}</div>
-                  <div className="text-gray-600">{item.label}</div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Hourly Forecast */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Hourly Forecast</h3>
-              <div className="flex space-x-4 overflow-x-auto pb-2">
-                {weatherData.hourly.map((hour, index) => (
-                  <div key={index} className="flex-shrink-0 text-center p-4 bg-gray-50 rounded-xl min-w-[100px]">
-                    <div className="text-sm text-gray-600 mb-2">{hour.time}</div>
-                    <hour.icon className="w-8 h-8 text-sky-500 mx-auto mb-2" />
-                    <div className="font-semibold text-gray-800">{hour.temp}°C</div>
-                  </div>
-                ))}
+            <div className="flex gap-6 mt-6 text-sm">
+              <div className="flex items-center gap-2">
+                <Sunrise className="w-5 h-5" />
+                <span>
+                  {new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
+                    "en-IN",
+                    { hour: "2-digit", minute: "2-digit" }
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Sunset className="w-5 h-5" />
+                <span>
+                  {new Date(weather.sys.sunset * 1000).toLocaleTimeString(
+                    "en-IN",
+                    { hour: "2-digit", minute: "2-digit" }
+                  )}
+                </span>
               </div>
             </div>
-          </motion.div>
-        )}
+          </div>
 
-        {/* 7-Day Forecast */}
-        {activeTab === 'forecast' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100"
-          >
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">7-Day Forecast</h3>
-            <div className="space-y-4">
-              {weatherData.forecast.map((day, index) => (
-                <motion.div
+          {/* 5-Day Forecast */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              {t.forecast5Day}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {forecast.map((day, index) => (
+                <div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors"
+                  className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-4 text-center"
                 >
-                  <div className="flex items-center space-x-4">
-                    <day.icon className="w-10 h-10 text-sky-500" />
-                    <div>
-                      <div className="font-semibold text-gray-800">{day.day}</div>
-                      <div className="text-sm text-gray-600">{day.date}</div>
-                    </div>
+                  <p className="font-semibold text-gray-700 mb-2">
+                    {formatDate(day.dt)}
+                  </p>
+                  <Cloud className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+                  <p className="text-2xl font-bold text-gray-800">
+                    {Math.round(day.main.temp)}°C
+                  </p>
+                  <p className="text-sm text-gray-600 capitalize">
+                    {day.weather[0].description}
+                  </p>
+                  <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600">
+                    <Droplets className="w-4 h-4" />
+                    <span>{day.main.humidity}%</span>
                   </div>
-                  <div className="text-center">
-                    <div className="font-bold text-gray-800">{day.temp}</div>
-                    <div className="text-sm text-gray-600">{day.low}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm text-gray-600">{day.condition}</div>
-                    <div className="text-sm text-blue-600">{day.precipitation}% rain</div>
-                  </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
-        )}
+          </div>
 
-        {/* Cultivation Guide */}
-        {activeTab === 'cultivation' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
+          {/* AI Crop Suggestions */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              🤖 {t.aiSuggestions}
+            </h2>
+
             {/* Crop Selection */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Select Crop for Guidance</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {cultivationTips.map((crop, index) => (
+            <div className="mb-4">
+              <label className="block font-semibold text-gray-700 mb-2">
+                {t.selectCrop}
+              </label>
+              <div className="flex flex-wrap gap-3">
+                {CROPS.map((crop) => (
                   <button
-                    key={index}
-                    onClick={() => setSelectedCrop(crop)}
-                    className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
-                      selectedCrop.crop === crop.crop
-                        ? 'border-green-500 bg-green-50'
-                        : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                    key={crop}
+                    onClick={() => {
+                      setSelectedCrop(crop);
+                      setGrowthStage("");
+                      setAiSuggestions("");
+                    }}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      selectedCrop === crop
+                        ? "bg-green-600 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    <Leaf className="w-8 h-8 text-green-600 mb-2" />
-                    <div className="font-semibold text-gray-800">{crop.crop}</div>
-                    <div className="text-sm text-gray-600">{crop.season} Season</div>
+                    {getCropName(crop)}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Selected Crop Details */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">{selectedCrop.crop} Cultivation Guide</h3>
-                <span className={`px-4 py-2 rounded-xl border font-semibold ${getStatusColor(selectedCrop.status)}`}>
-                  {selectedCrop.status.charAt(0).toUpperCase() + selectedCrop.status.slice(1)}
-                </span>
-              </div>
-
-              {/* Current Weather Advice */}
-              <div className={`p-4 rounded-2xl border mb-6 ${getStatusColor(selectedCrop.status)}`}>
-                <div className="flex items-center space-x-2 mb-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  <span className="font-semibold">Current Weather Advice</span>
-                </div>
-                <p>{selectedCrop.currentAdvice}</p>
-              </div>
-
-              {/* Cultivation Tips */}
-              <div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">General Cultivation Tips</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {selectedCrop.tips.map((tip, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-4 bg-gray-50 rounded-xl">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-gray-700">{tip}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Growth Stage Selection */}
+            <div className="mb-4">
+              <label className="block font-semibold text-gray-700 mb-2">
+                {t.growthStageLabel}
+              </label>
+              <select
+                value={growthStage}
+                onChange={(e) => setGrowthStage(e.target.value)}
+                className="w-full md:w-auto px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-600 focus:outline-none"
+              >
+                <option value="">{t.selectGrowthStage}</option>
+                {getGrowthStages().map((stage) => (
+                  <option key={stage} value={stage}>
+                    {stage}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {/* Weather Impact Analysis */}
-            <div className="bg-white rounded-3xl p-6 shadow-lg border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Weather Impact Analysis</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-800">Favorable Conditions</h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2 text-green-600">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span>Temperature within optimal range</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-green-600">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span>Good humidity levels for growth</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-gray-800">Potential Risks</h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2 text-yellow-600">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                      <span>Rain expected in 2 days</span>
-                    </div>
-                    <div className="flex items-center space-x-2 text-yellow-600">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                      <span>Monitor for pest activity</span>
-                    </div>
-                  </div>
+            {/* Generate Button */}
+            <button
+              onClick={generateAISuggestions}
+              disabled={loadingAI}
+              className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 mb-4 flex items-center gap-2"
+            >
+              {loadingAI ? (
+                <>
+                  <Loader className="w-5 h-5 animate-spin" />
+                  {t.analyzing}
+                </>
+              ) : (
+                <>✨ {t.getAiSuggestions}</>
+              )}
+            </button>
+
+            {/* AI Suggestions Display */}
+            {aiSuggestions && (
+              <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6 border-l-4 border-green-600">
+                <div className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                  {aiSuggestions}
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </div>
+            )}
+
+            {/* Show message if no suggestions yet */}
+            {!aiSuggestions && !loadingAI && (
+              <div className="text-center text-gray-500 py-8">
+                <p>{t.noSuggestionsYet}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default WeatherGuide;

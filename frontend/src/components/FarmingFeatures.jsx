@@ -81,7 +81,7 @@ const FarmingFeatures = () => {
       >
         <div className="md:w-1/2 md:pr-8">
           <div className="inline-block mb-4">
-            <span className="text-5xl">🌾</span>
+            {/* <span className="text-5xl">🌾</span> */}
           </div>
           <h3 className="text-3xl font-bold mb-3 text-green-800 tracking-tight">
             {t.feature1Title}
@@ -151,7 +151,7 @@ const FarmingFeatures = () => {
       >
         <div className="md:w-1/2 md:pr-8">
           <div className="inline-block mb-4">
-            <span className="text-5xl">📊</span>
+            {/* <span className="text-5xl">📊</span> */}
           </div>
           <h3 className="text-3xl font-bold mb-3 text-green-800 tracking-tight">
             {t.feature3Title}
@@ -185,7 +185,7 @@ const FarmingFeatures = () => {
       >
         <div className="md:w-1/2 md:pl-8">
           <div className="inline-block mb-4">
-            <span className="text-5xl">🧠</span>
+            {/* <span className="text-5xl">🧠</span> */}
           </div>
           <h3 className="text-3xl font-bold mb-3 text-green-800 tracking-tight">
             {t.feature4Title}
