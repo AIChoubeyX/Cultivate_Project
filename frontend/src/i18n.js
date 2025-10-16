@@ -10,33 +10,47 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import landingEN from './locales/en/landing.json';
 import weatherEN from './locales/en/weather.json';
 import commonEN from './locales/en/common.json';
+import homeEN from './locales/en/home.json'; // ⭐ Add home
+import fearuresEN from './locales/en/features.json';
+
 
 // Hindi translations
 import landingHI from './locales/hi/landing.json';
 import weatherHI from './locales/hi/weather.json';
 import commonHI from './locales/hi/common.json';
+import homeHI from './locales/hi/home.json'; // ⭐ Add home
+import fearuresHI from './locales/hi/features.json';
 
 // Bengali translations (add when ready)
 import weatherBN from './locales/bn/weather.json';
 import commonBN from './locales/bn/common.json';
 import landingBN from './locales/bn/landing.json';
+import homeBN from './locales/bn/home.json'; // ⭐ Add home
+import fearuresBN from './locales/bn/features.json';
 
 // Organize translations by language and namespace
 const resources = {
   en: {
     landing: landingEN,    // Landing page translations
     weather: weatherEN,    // Weather page translations
-    common: commonEN       // Common translations (buttons, nav, etc.)
+    common: commonEN ,
+    home: homeEN ,
+    features: fearuresEN
   },
   hi: {
     landing: landingHI,
     weather: weatherHI,
-    common: commonHI
+    common: commonHI,
+    home: homeHI,
+    features: fearuresHI
   },
   bn:{
     landing: landingBN,
     weather: weatherBN,
-    common: commonBN
+    common: commonBN,
+    home: homeBN,
+    features: fearuresBN
+            // Home page translations 
   }
   // Add more languages here as you create them
   // bn: {
@@ -59,7 +73,7 @@ i18n
     resources,                    // All translation data
     fallbackLng: 'en',           // Use English if translation missing
     defaultNS: 'common',         // Default namespace
-    ns: ['common', 'landing', 'weather'], // Available namespaces
+    ns: ['common', 'landing', 'weather' , 'home' , 'features'], // Available namespaces
     
     // Interpolation settings (for dynamic values like {{name}})
     interpolation: {

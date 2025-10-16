@@ -1,0 +1,134 @@
+{
+  "features": {
+    "weatherTitle": "Weather & Cultivation Guide",
+    "weatherDesc": "Get real-time weather updates and personalized cultivation advice for your crops based on local conditions.",
+    
+    "diseaseTitle": "Crop Disease Detection",
+    "diseaseDesc": "Identify plant diseases early using AI-powered image analysis and get instant treatment recommendations.",
+    
+    "chatbotTitle": "AI Chatbot Assistant",
+    "chatbotDesc": "Chat with our intelligent AI assistant for instant farming advice, tips, and answers to all your questions.",
+    
+    "marketTitle": "Market Price Updates",
+    "marketDesc": "Stay updated with real-time market prices and trends to make informed selling decisions and maximize profits.",
+    
+    "exploreBtn": "Explore Feature",
+    
+    "stats": {
+      "available": "Available",
+      "response": "Response",
+      "service": "Service",
+      "fast": "Fast",
+      "free": "Free",
+      "allTime": "24/7"
+    }
+  },
+  
+  "weatherCards": {
+    "card1": {
+      "title": "Real-Time Weather",
+      "description": "Get accurate weather forecasts and alerts for your region",
+      "badge": "Learn More →"
+    },
+    "card2": {
+      "title": "Cultivation Tips",
+      "description": "Personalized advice based on weather patterns and soil conditions",
+      "badge": "Learn More →"
+    },
+    "card3": {
+      "title": "Seasonal Planning",
+      "description": "Plan your crops according to seasonal weather predictions",
+      "badge": "Learn More →"
+    }
+  },
+  
+  "diseaseCards": {
+    "card1": {
+      "title": "AI-Powered Detection",
+      "description": "Scan plant leaves using your phone camera for instant disease identification",
+      "badge": "Learn More →"
+    },
+    "card2": {
+      "title": "Treatment Solutions",
+      "description": "Get detailed treatment recommendations and prevention methods",
+      "badge": "Learn More →"
+    },
+    "card3": {
+      "title": "Disease Library",
+      "description": "Access comprehensive database of crop diseases and symptoms",
+      "badge": "Learn More →"
+    }
+  },
+  
+  "chatbotCards": {
+    "card1": {
+      "title": "24/7 AI Assistant",
+      "description": "Get instant answers to your farming questions anytime, anywhere",
+      "badge": "Learn More →"
+    },
+    "card2": {
+      "title": "Expert Knowledge",
+      "description": "Access agricultural expertise and best farming practices instantly",
+      "badge": "Learn More →"
+    },
+    "card3": {
+      "title": "Multi-Language Support",
+      "description": "Communicate in your preferred language for better understanding",
+      "badge": "Learn More →"
+    }
+  },
+  
+  "marketCards": {
+    "card1": {
+      "title": "Live Price Updates",
+      "description": "Track real-time market prices for all major crops and commodities",
+      "badge": "Learn More →"
+    },
+    "card2": {
+      "title": "Price Trends",
+      "description": "Analyze historical trends to decide the best time to sell",
+      "badge": "Learn More →"
+    },
+    "card3": {
+      "title": "Mandi Rates",
+      "description": "Compare prices across different mandis in your region",
+      "badge": "Learn More →"
+    }
+  },
+
+  "cards": {
+    "learnMore": "Learn More →",
+    "weather": {
+      "card1Title": "Real-Time Weather",
+      "card1Desc": "Get accurate weather forecasts and alerts for your region",
+      "card2Title": "Cultivation Tips",
+      "card2Desc": "Personalized advice based on weather patterns and soil conditions",
+      "card3Title": "Seasonal Planning",
+      "card3Desc": "Plan your crops according to seasonal weather predictions"
+    },
+    "disease": {
+      "card1Title": "AI-Powered Detection",
+      "card1Desc": "Scan plant leaves using your phone camera for instant disease identification",
+      "card2Title": "Treatment Solutions",
+      "card2Desc": "Get detailed treatment recommendations and prevention methods",
+      "card3Title": "Disease Library",
+      "card3Desc": "Access comprehensive database of crop diseases and symptoms"
+    },
+    "chatbot": {
+      "card1Title": "24/7 AI Assistant",
+      "card1Desc": "Get instant answers to your farming questions anytime, anywhere",
+      "card2Title": "Expert Knowledge",
+      "card2Desc": "Access agricultural expertise and best farming practices instantly",
+      "card3Title": "Multi-Language Support",
+      "card3Desc": "Communicate in your preferred language for better understanding"
+    },
+    "market": {
+      "card1Title": "Live Price Updates",
+      "card1Desc": "Track real-time market prices for all major crops and commodities",
+      "card2Title": "Price Trends",
+      "card2Desc": "Analyze historical trends to decide the best time to sell",
+      "card3Title": "Mandi Rates",
+      "card3Desc": "Compare prices across different mandis in your region"
+    }
+  }
+}

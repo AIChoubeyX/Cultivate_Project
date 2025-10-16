@@ -86,6 +86,7 @@ const farmerRoutes = require('./routes/farmer');
 // ⭐ NEW: Import weather routes
 const weatherRoutes = require('./routes/weather');
 
+
 const app = express();
 
 // Connect to MongoDB
