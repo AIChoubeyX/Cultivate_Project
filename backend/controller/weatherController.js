@@ -206,64 +206,105 @@ Keep response concise (4-5 bullet points) and farmer-friendly in simple language
       });
     }
 
-    // ⭐ Call OpenRouter API
-    try {
-      console.log(`🤖 Calling OpenRouter for ${crop} suggestions...`);
+    // ⭐ Call OpenRouter API with multiple model fallbacks
+    // Try different free models in order of preference
+    const freeModels = [
+      "google/gemini-flash-1.5:free",           // Best overall
+      "google/gemini-2.0-flash-exp:free",       // Latest Gemini
+      "meta-llama/llama-3.1-8b-instruct:free",  // Larger Llama
+      "meta-llama/llama-3.2-3b-instruct:free",  // Original
+      "mistralai/mistral-7b-instruct:free",     // Mistral alternative
+    ];
+
+    for (let i = 0; i < freeModels.length; i++) {
+      const modelName = freeModels[i];
       
-      const response = await axios.post(
-        "https://openrouter.ai/api/v1/chat/completions",
-        {
-           model: "meta-llama/llama-3.2-3b-instruct:free", // FREE model
-          messages: [
-            {
-              role: "user",
-              content: prompt
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 600
-        },
-        {
-          headers: {
-            "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-            "Content-Type": "application/json",
-            "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:3000",
-            "X-Title": "Cultivate - Farmer Weather Assistant"
+      try {
+        console.log(`🤖 Attempt ${i + 1}: Calling OpenRouter with ${modelName}...`);
+        
+        const response = await axios.post(
+          "https://openrouter.ai/api/v1/chat/completions",
+          {
+            model: modelName,
+            messages: [
+              {
+                role: "user",
+                content: prompt
+              }
+            ],
+            temperature: 0.7,
+            max_tokens: 600
           },
-          timeout: 20000,
+          {
+            headers: {
+              "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": process.env.FRONTEND_URL || "http://localhost:3000",
+              "X-Title": "Cultivate - Farmer Weather Assistant"
+            },
+            timeout: 20000,
+          }
+        );
+
+        const aiSuggestion = response.data.choices[0].message.content;
+        console.log(`✅ OpenRouter API success with ${modelName}!`);
+
+        return res.json({
+          success: true,
+          data: {
+            crop: crop,
+            suggestion: aiSuggestion,
+            weather_summary: {
+              temp: weather.temp,
+              humidity: weather.humidity,
+              description: weather.description,
+            },
+            fallback: false,
+            model_used: modelName,
+          },
+        });
+
+      } catch (apiError) {
+        const errorCode = apiError.response?.data?.error?.code;
+        console.error(`⚠️ Model ${modelName} failed:`, errorCode || apiError.message);
+        
+        // If it's a rate limit (429) or server error (5xx), try next model
+        if (errorCode === 429 || (apiError.response?.status >= 500)) {
+          console.log(`🔄 Trying next model...`);
+          
+          // Small delay before trying next model
+          if (i < freeModels.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            continue;
+          }
         }
-      );
-
-      const aiSuggestion = response.data.choices[0].message.content;
-      console.log("✅ OpenRouter API success!");
-
-      return res.json({
-        success: true,
-        data: {
-          crop: crop,
-          suggestion: aiSuggestion,
-          weather_summary: {
-            temp: weather.temp,
-            humidity: weather.humidity,
-            description: weather.description,
-          },
-          fallback: false,
-        },
-      });
-
-    } catch (apiError) {
-      console.error("OpenRouter API Error:", apiError.response?.data || apiError.message);
-      
-      return res.json({
-        success: true,
-        data: {
-          crop: crop,
-          suggestion: getFallbackSuggestion(crop, weather),
-          fallback: true,
-          message: "Showing smart weather-based recommendations.",
-        },
-      });
+        
+        // If last model or non-retryable error, use fallback
+        if (i === freeModels.length - 1) {
+          console.log("⚠️ All models exhausted, using fallback suggestions");
+          return res.json({
+            success: true,
+            data: {
+              crop: crop,
+              suggestion: getFallbackSuggestion(crop, weather),
+              fallback: true,
+              message: "AI service temporarily unavailable. Showing smart weather-based recommendations.",
+            },
+          });
+        }
+      }
     }
+    
+    // Fallback if loop completes without success
+    return res.json({
+      success: true,
+      data: {
+        crop: crop,
+        suggestion: getFallbackSuggestion(crop, weather),
+        fallback: true,
+        message: "Showing smart weather-based recommendations.",
+      },
+    });
 
   } catch (error) {
     console.error("AI Suggestion Error:", error.response?.data || error.message);

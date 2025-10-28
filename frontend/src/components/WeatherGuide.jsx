@@ -116,6 +116,12 @@ const WeatherGuide = () => {
       );
 
       setAiSuggestions(response.suggestion);
+      
+      // Show info message if using fallback
+      if (response.fallback) {
+        setError("ℹ️ " + (response.message || "Using smart weather-based recommendations."));
+      }
+      
       setLoadingAI(false);
     } catch (err) {
       console.error("AI suggestion error:", err);
@@ -189,10 +195,18 @@ const WeatherGuide = () => {
 
       {/* Error Alert */}
       {error && (
-        <div className="max-w-6xl mx-auto mb-4 bg-red-100 border-l-4 border-red-500 p-4 rounded-lg">
+        <div className={`max-w-6xl mx-auto mb-4 ${
+          error.startsWith('ℹ️') 
+            ? 'bg-blue-100 border-l-4 border-blue-500' 
+            : 'bg-red-100 border-l-4 border-red-500'
+        } p-4 rounded-lg`}>
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-red-600" />
-            <p className="text-red-700">{error}</p>
+            <AlertCircle className={`w-5 h-5 ${
+              error.startsWith('ℹ️') ? 'text-blue-600' : 'text-red-600'
+            }`} />
+            <p className={error.startsWith('ℹ️') ? 'text-blue-700' : 'text-red-700'}>
+              {error}
+            </p>
           </div>
         </div>
       )}
@@ -339,7 +353,7 @@ const WeatherGuide = () => {
             </div>
 
             {/* Growth Stage Selection */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="block font-semibold text-gray-700 mb-2">
                 {t('ai.growthStageLabel')}
               </label>
@@ -355,7 +369,7 @@ const WeatherGuide = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
             {/* Generate Button */}
             <button

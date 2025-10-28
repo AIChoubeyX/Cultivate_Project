@@ -85,6 +85,10 @@ const farmerRoutes = require('./routes/farmer');
 
 // ⭐ NEW: Import weather routes
 const weatherRoutes = require('./routes/weather');
+const chatRoutes = require('./routes/chatRoutes') ;
+// const plantDiseaseRoute = require('./routes/plantDisease');
+
+
 
 
 const app = express();
@@ -122,6 +126,11 @@ app.use('/api/farmer', farmerRoutes);
 
 // ⭐ NEW: Weather routes with rate limiting
 app.use('/api/weather', weatherLimiter, weatherRoutes);
+
+app.use('/api/chat', chatRoutes);
+
+// Plant disease detection routes
+// app.use('/api/plant', plantDiseaseRoute);
 
 // Health check
 app.get('/health', (req, res) => {
