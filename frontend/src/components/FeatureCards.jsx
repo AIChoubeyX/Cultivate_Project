@@ -253,9 +253,9 @@ function FeatureCards() {
             </div>
 
             {/* ✅ RIGHT SIDE - Cards Container (Inside the main box) ${feature.bgLight} */}
-            <div className={` p-6 sm:p-8 lg:p-12 flex items-center justify-center relative overflow-hidden`}>
-              <div className="w-full h-full flex items-center justify-center" style={{ position: 'relative', minHeight: '400px' }}>
-                <div style={{ position: 'relative', width: '380px', height: '280px' }}>
+            <div className={` p-4 sm:p-8 lg:p-12 flex items-center justify-center relative overflow-hidden`}>
+              <div className="w-full flex items-center justify-center" style={{ position: 'relative', minHeight: '280px', maxHeight: '400px' }}>
+                <div className="relative flex items-center justify-center w-full" style={{ maxWidth: '380px', height: '280px' }}>
                   <CardSwap
                     cardDistance={40}
                     verticalDistance={50}
@@ -272,7 +272,7 @@ function FeatureCards() {
                       {/* Card Content */}
                       <div className="w-full h-full bg-white rounded-xl overflow-hidden">
                         {/* Image Section bg-gradient-to-br ${card.bgColor} opacity-80*/}
-                        <div className="relative h-32 overflow-hidden">
+                        <div className="relative h-28 sm:h-32 overflow-hidden">
                           <div className={`absolute inset-0 `}></div>
                           <img 
                             src={card.image} 
@@ -282,19 +282,19 @@ function FeatureCards() {
                         </div>
 
                         {/* Text Content */}
-                        <div className="p-4 space-y-2">
+                        <div className="p-3 sm:p-4 space-y-1 sm:space-y-2">
                           {/* Title */}
-                          <h3 className="text-lg font-bold text-gray-800">
+                          <h3 className="text-base sm:text-lg font-bold text-gray-800 line-clamp-1">
                             {card.title}
                           </h3>
 
                           {/* Description */}
-                          <p className="text-xs text-gray-600 leading-relaxed">
+                          <p className="text-[10px] sm:text-xs text-gray-600 leading-relaxed line-clamp-2">
                             {card.description}
                           </p>
 
                           {/* Badge */}
-                          <span className={`inline-block px-3 py-1 bg-gradient-to-r ${card.bgColor} text-white text-xs font-semibold rounded-full`}>
+                          <span className={`inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r ${card.bgColor} text-white text-[10px] sm:text-xs font-semibold rounded-full`}>
                             {card.badge}
                           </span>
                         </div>
