@@ -1,0 +1,86 @@
+{
+  "heading": "Agricultural Resources",
+  "subheading": "Explore comprehensive agriculture websites for education, market updates, and farming solutions",
+  "visitWebsite": "Visit Website",
+  "footerNote": "Click on any card to expand and view details, then click 'Visit Website' to explore more resources",
+  
+  "educationConsulting": {
+    "title": "Agriculture Education Consulting",
+    "desc": "Expert guidance for agricultural education programs, training, and professional development for farmers and agricultural professionals."
+  },
+  
+  "recruitment": {
+    "title": "Agricultural Recruitment Services",
+    "desc": "Connect with top agricultural job opportunities and recruitment services. Find your next career in agriculture sector."
+  },
+  
+  "jobs": {
+    "title": "All Agriculture Jobs in India",
+    "desc": "Comprehensive portal for all types of agriculture jobs across India. Browse latest job postings, career advice, and opportunities."
+  },
+  
+  "tractorNews": {
+    "title": "Tractor News, Loans & Insurance",
+    "desc": "Latest updates on tractor models, financing options, insurance plans, and buyer's guide for agricultural machinery."
+  },
+  
+  "agTech": {
+    "title": "Agricultural Technologies Updates",
+    "desc": "Stay informed about cutting-edge agricultural technologies, innovations, smart farming solutions, and digital agriculture trends."
+  },
+  
+  "colleges": {
+    "title": "Agricultural Colleges & Universities",
+    "desc": "Information about agricultural colleges, universities, courses, admissions, and educational opportunities in agriculture field."
+  },
+  
+  "seedIndustry": {
+    "title": "Seed Industry Updates",
+    "desc": "Latest news from seed industry, new varieties, seed technologies, regulations, and market trends in agricultural seeds."
+  },
+  
+  "sustainable": {
+    "title": "Sustainable Agriculture News",
+    "desc": "Updates on sustainable farming practices, organic agriculture, eco-friendly methods, and environmental conservation in farming."
+  },
+  
+  "tomatoCultivation": {
+    "title": "Tomato Cultivation Guide",
+    "desc": "Complete guidance on tomato cultivation including planting techniques, care tips, disease management, and harvesting methods."
+  },
+  
+  "plantPathology": {
+    "title": "Plant Pathology News",
+    "desc": "Latest research and news related to plant diseases, pathology, pest management, and crop protection strategies."
+  },
+  
+  "marketingNews": {
+    "title": "Agricultural Marketing News",
+    "desc": "Market intelligence, agricultural marketing strategies, export-import updates, and business opportunities in agriculture."
+  },
+  
+  "marketPrices": {
+    "title": "Latest Agriculture Market Prices",
+    "desc": "Real-time market prices of agricultural commodities, crops, vegetables, and produce across different mandis and markets."
+  },
+  
+  "mbaAgriculture": {
+    "title": "MBA in Agriculture Information",
+    "desc": "Information about MBA programs in agriculture, agribusiness management, admissions, career prospects, and top institutions."
+  },
+  
+  "marketingJobs": {
+    "title": "Agricultural Marketing Jobs",
+    "desc": "Career opportunities in agricultural marketing sector, sales positions, marketing roles, and business development jobs."
+  },
+  
+  "bankingJobs": {
+    "title": "Agricultural Banking Jobs",
+    "desc": "Job opportunities in agricultural banking, rural finance, credit services, and financial institutions serving agriculture."
+  },
+  
+  "retailers": {
+    "title": "Indian Agriculture Retailers",
+    "desc": "Directory of agricultural retailers, input dealers, seed suppliers, fertilizer distributors, and farm equipment dealers."
+  }
+}

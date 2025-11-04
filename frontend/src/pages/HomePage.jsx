@@ -606,6 +606,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import FeatureCards from '../components/FeatureCards';
+import Links from '../components/Links'; // ⭐ Import Links component
 
 /**
  * HomePage Component
@@ -811,6 +812,9 @@ function HomePage() {
         </motion.div>
         */}
       </div>
+
+      {/* ✅ AGRICULTURAL LINKS SECTION */}
+      <Links />
     </div>
   );
 }

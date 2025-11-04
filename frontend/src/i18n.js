@@ -12,6 +12,7 @@ import weatherEN from './locales/en/weather.json';
 import commonEN from './locales/en/common.json';
 import homeEN from './locales/en/home.json'; // ⭐ Add home
 import fearuresEN from './locales/en/features.json';
+import linksEN from './locales/en/links.json'; // ⭐ Add links
 
 
 // Hindi translations
@@ -20,6 +21,7 @@ import weatherHI from './locales/hi/weather.json';
 import commonHI from './locales/hi/common.json';
 import homeHI from './locales/hi/home.json'; // ⭐ Add home
 import fearuresHI from './locales/hi/features.json';
+import linksHI from './locales/hi/links.json'; // ⭐ Add links
 
 // Bengali translations (add when ready)
 import weatherBN from './locales/bn/weather.json';
@@ -27,6 +29,7 @@ import commonBN from './locales/bn/common.json';
 import landingBN from './locales/bn/landing.json';
 import homeBN from './locales/bn/home.json'; // ⭐ Add home
 import fearuresBN from './locales/bn/features.json';
+import linksBN from './locales/bn/links.json'; // ⭐ Add links
 
 // Organize translations by language and namespace
 const resources = {
@@ -35,22 +38,24 @@ const resources = {
     weather: weatherEN,    // Weather page translations
     common: commonEN ,
     home: homeEN ,
-    features: fearuresEN
+    features: fearuresEN,
+    links: linksEN         // ⭐ Links section translations
   },
   hi: {
     landing: landingHI,
     weather: weatherHI,
     common: commonHI,
     home: homeHI,
-    features: fearuresHI
+    features: fearuresHI,
+    links: linksHI         // ⭐ Links section translations
   },
   bn:{
     landing: landingBN,
     weather: weatherBN,
     common: commonBN,
     home: homeBN,
-    features: fearuresBN
-            // Home page translations 
+    features: fearuresBN,
+    links: linksBN         // ⭐ Links section translations
   }
   // Add more languages here as you create them
   // bn: {
@@ -73,7 +78,7 @@ i18n
     resources,                    // All translation data
     fallbackLng: 'en',           // Use English if translation missing
     defaultNS: 'common',         // Default namespace
-    ns: ['common', 'landing', 'weather' , 'home' , 'features'], // Available namespaces
+    ns: ['common', 'landing', 'weather' , 'home' , 'features', 'links'], // Available namespaces
     
     // Interpolation settings (for dynamic values like {{name}})
     interpolation: {
