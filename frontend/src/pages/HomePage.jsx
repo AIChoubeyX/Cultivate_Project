@@ -607,6 +607,8 @@ import {
 import { useAuth } from '../context/AuthContext';
 import FeatureCards from '../components/FeatureCards';
 import Links from '../components/Links'; // ⭐ Import Links component
+import heroBanner from '../assets/robo.jpg'; // ⭐ Import hero banner image
+import harvesterImg from '../assets/hero.jpg'; // ⭐ Import harvester image
 
 /**
  * HomePage Component
@@ -649,109 +651,198 @@ function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ✅ FARMER DASHBOARD SECTION */}
+        {/* ✅ HERO BANNER SECTION - NEW */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl mb-12 mt-8"
+        >
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img 
+              src={heroBanner} 
+              alt="Indian Farmer Journal" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Overlay Gradient for better text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent"></div>
+
+          {/* Text Content */}
+          <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-20">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-2xl"
+            >
+              {/* Main Title */}
+              <h1 className="text-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 drop-shadow-2xl tracking-tight">
+                {t('hero.title')}
+              </h1>
+
+              {/* Inspirational Quote */}
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-amber-50 font-light italic max-w-3xl drop-shadow-lg leading-relaxed mb-4 md:mb-6 border-l-4 border-amber-400 pl-4 bg-black/10 backdrop-blur-sm py-3 rounded-r-lg">
+                "{t('hero.quote')}"
+              </p>
+
+              {/* Description */}
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-50 font-light max-w-xl drop-shadow-md leading-relaxed border-l-4 border-amber-400 pl-3 md:pl-4 bg-black/20 backdrop-blur-sm py-2 md:py-3 pr-3 md:pr-4 rounded-r-lg">
+                {t('hero.description')}
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Decorative Border */}
+          <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-green-600 via-amber-500 to-orange-600"></div>
+        </motion.div>
+
+         <motion.div 
+          initial={{ y: 30, opacity: 0 }} 
+          animate={{ y: 0, opacity: 1 }} 
+          transition={{ duration: 0.6 }} 
+          className="text-center mb-12 px-4"
+        >
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+            {t('dashboard.welcomeTitle')}
+          </h1>
+          {/* <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            {t('dashboard.welcomeDesc')}
+          </p> */}
+        </motion.div>
+        
+        {/* ✅ FARMER DASHBOARD SECTION - REDESIGNED WITH HARVESTER IMAGE */}
         {user && (
           <motion.div 
             initial={{ y: -30, opacity: 0 }} 
             animate={{ y: 0, opacity: 1 }} 
             transition={{ duration: 0.6 }}
-            className="mb-8 bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl shadow-2xl p-8 text-white overflow-hidden relative"
+            className="mb-12 rounded-3xl shadow-2xl overflow-hidden relative bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6 sm:p-8 lg:p-12"
           >
-            {/* Background Pattern */}
-            <div className="absolute top-0 right-0 opacity-10">
-              <Crop className="w-64 h-64" />
-            </div>
-
-            {/* Header */}
-            <div className="relative z-10 mb-6">
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                    <User className="w-8 h-8 text-white" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              
+              {/* LEFT SIDE - Farmer Details & Info */}
+              <div className="relative z-10">
+                
+                {/* Welcome Header */}
+                <div className="mb-6">
+                  <div className="flex items-center space-x-4 mb-3">
+                    {/* <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                      
+                    </div> */}
+                    <div>
+                      <h2 className="text-hero-title text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
+                        {t('dashboard.welcomeFarmer', { name: user.name })}
+                      </h2>
+                      <p className="text-sm sm:text-base text-amber-700 font-medium mt-1">
+                        {t('dashboard.farmerId', { id: user.farmerId })}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    {/* ⭐ Using t() with interpolation for dynamic name */}
-                    <h2 className="text-3xl font-bold">
-                      {t('dashboard.welcomeFarmer', { name: user.name })}
-                    </h2>
-                    <p className="text-green-100">
-                      {t('dashboard.farmerId', { id: user.farmerId })}
+                  
+                  {/* Active Badge */}
+                  <div className="inline-flex items-center bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                    {t('dashboard.activeAccount')}
+                  </div>
+                </div>
+
+                {/* Farmer Info Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  {/* Location Card */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-amber-100 hover:shadow-lg transition-all">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        {t('dashboard.location')}
+                      </span>
+                    </div>
+                    <p className="text-hero-subtitle font-bold text-lg text-gray-800">{user.village}</p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {user.district}, {user.state}
+                    </p>
+                  </div>
+
+                  {/* Contact Card */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-amber-100 hover:shadow-lg transition-all">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Phone className="w-5 h-5 text-green-600" />
+                      </div>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        {t('dashboard.contact')}
+                      </span>
+                    </div>
+                    <p className="text-hero-subtitle font-bold text-lg text-gray-800">{user.mobile}</p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {t('dashboard.registeredMobile')}
+                    </p>
+                  </div>
+
+                  {/* Land Size Card */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-amber-100 hover:shadow-lg transition-all">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Crop className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        {t('dashboard.landSize')}
+                      </span>
+                    </div>
+                    <p className="text-hero-subtitle font-bold text-lg text-gray-800">
+                      {user.landSize || '0'} {t('dashboard.acres')}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {t('dashboard.totalFarmland')}
+                    </p>
+                  </div>
+
+                  {/* Member Since Card */}
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-md border border-amber-100 hover:shadow-lg transition-all">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <User className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                        {t('dashboard.memberSince')}
+                      </span>
+                    </div>
+                    <p className="text-hero-subtitle font-bold text-lg text-gray-800">
+                      {formatDate(user.createdAt)}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {t('dashboard.registrationDate')}
                     </p>
                   </div>
                 </div>
-                <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full">
-                  <span className="text-sm font-medium">
-                    {t('dashboard.activeAccount')}
-                  </span>
-                </div>
-              </div>
-            </div>
 
-            {/* Farmer Info Grid */}
-            <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-6">
-              
-              {/* Location */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 hover:bg-white/20 transition-all">
-                <div className="flex items-center space-x-3 mb-2">
-                  <MapPin className="w-5 h-5 text-green-200" />
-                  <span className="text-sm text-green-200">
-                    {t('dashboard.location')}
-                  </span>
+                {/* Decorative Bottom Text */}
+                <div className="mt-6 pt-4 border-t border-amber-200">
+                  <p className="text-center sm:text-left text-sm text-gray-600 italic">
+                    "Modern farming meets tradition"
+                  </p>
                 </div>
-                <p className="font-semibold text-lg">{user.village}</p>
-                <p className="text-sm text-green-100">
-                  {user.district}, {user.state}
-                </p>
               </div>
 
-              {/* Mobile */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 hover:bg-white/20 transition-all">
-                <div className="flex items-center space-x-3 mb-2">
-                  <Phone className="w-5 h-5 text-green-200" />
-                  <span className="text-sm text-green-200">
-                    {t('dashboard.contact')}
-                  </span>
+              {/* RIGHT SIDE - Harvester Sticker Image */}
+              <div className="relative flex items-center justify-center lg:justify-end">
+                <div className="w-full max-w-[400px] lg:max-w-[500px]">
+                  <img 
+                    src={harvesterImg} 
+                    alt="Modern Farming Harvester" 
+                    className="w-full h-auto object-contain drop-shadow-2xl"
+                  />
                 </div>
-                <p className="font-semibold text-lg">{user.mobile}</p>
-                <p className="text-sm text-green-100">
-                  {t('dashboard.registeredMobile')}
-                </p>
               </div>
 
-              {/* Land Size */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 hover:bg-white/20 transition-all">
-                <div className="flex items-center space-x-3 mb-2">
-                  <Crop className="w-5 h-5 text-green-200" />
-                  <span className="text-sm text-green-200">
-                    {t('dashboard.landSize')}
-                  </span>
-                </div>
-                <p className="font-semibold text-lg">
-                  {user.landSize || '0'} {t('dashboard.acres')}
-                </p>
-                <p className="text-sm text-green-100">
-                  {t('dashboard.totalFarmland')}
-                </p>
-              </div>
-
-              {/* Member Since */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 hover:bg-white/20 transition-all">
-                <div className="flex items-center space-x-3 mb-2">
-                  <User className="w-5 h-5 text-green-200" />
-                  <span className="text-sm text-green-200">
-                    {t('dashboard.memberSince')}
-                  </span>
-                </div>
-                <p className="font-semibold text-lg">
-                  {formatDate(user.createdAt)}
-                </p>
-                <p className="text-sm text-green-100">
-                  {t('dashboard.registrationDate')}
-                </p>
-              </div>
             </div>
           </motion.div>
         )}
@@ -761,14 +852,14 @@ function HomePage() {
           initial={{ y: 30, opacity: 0 }} 
           animate={{ y: 0, opacity: 1 }} 
           transition={{ duration: 0.6 }} 
-          className="text-center mb-12"
+          className="text-center mb-12 px-4"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          {/* <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
             {t('dashboard.welcomeTitle')}
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          </h1> */}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
             {t('dashboard.welcomeDesc')}
-          </p>
+          </h1>
         </motion.div>
 
         {/* ✅ FEATURE CARDS */}

@@ -1,4 +1,9 @@
 {
+  "hero": {
+    "title": "Indian Farmer",
+    "quote": "The farmer is the only man in our economy who buys everything at retail, sells everything at wholesale, and pays the freight both ways.",
+    "description": "Empowering Indian Farmers with Knowledge, Technology & Innovation"
+  },
   "dashboard": {
     "welcomeTitle": "Welcome to Your Farm Dashboard",
     "welcomeDesc": "Access all the tools you need to optimize your farming operations in one place",
