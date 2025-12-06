@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { User, Phone, MapPin, LogIn, UserPlus, Eye, EyeOff, Wheat } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 // Real Indian States and Districts
 const STATES_DISTRICTS = {

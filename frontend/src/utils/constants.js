@@ -1,10 +1,7 @@
 // src/utils/constants.js
 
-// ⭐ API Base URL - Change this when you deploy
-export const API_BASE_URL = 'http://localhost:5000/api';
-
-// For production, manually change to:
-// export const API_BASE_URL = 'https://your-backend-url.com/api';
+// ⭐ API Base URL - Uses environment variable
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 // Weather API endpoints
 export const WEATHER_ENDPOINTS = {
