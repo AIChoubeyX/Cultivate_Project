@@ -1,396 +1,4 @@
-// import { useState, useRef, useEffect } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { 
-//   Send, 
-//   Mic, 
-//   MicOff, 
-//   Volume2, 
-//   VolumeX, 
-//   Bot, 
-//   User, 
-//   Leaf, 
-//   Sun, 
-//   Droplets,
-//   TrendingUp,
-//   Camera,
-//   MapPin,
-//   Calendar,
-//   Lightbulb,
-//   BookOpen,
-//   Settings
-// } from 'lucide-react';
 
-// const quickQuestions = [
-//   {
-//     icon: Sun,
-//     text: "What's the best time to plant rice?",
-//     category: "Planting"
-//   },
-//   {
-//     icon: Droplets,
-//     text: "How much water does wheat need?",
-//     category: "Irrigation"
-//   },
-//   {
-//     icon: Leaf,
-//     text: "My tomato leaves are yellowing, what should I do?",
-//     category: "Disease"
-//   },
-//   {
-//     icon: TrendingUp,
-//     text: "What are today's market prices for cotton?",
-//     category: "Market"
-//   },
-//   {
-//     icon: Camera,
-//     text: "Can you identify this pest in my crop?",
-//     category: "Pest Control"
-//   },
-//   {
-//     icon: MapPin,
-//     text: "What crops grow best in my region?",
-//     category: "Regional"
-//   }
-// ];
-
-// const botResponses = {
-//   greeting: [
-//     "Hello! I'm your AI farming assistant. How can I help you today?",
-//     "Welcome! I'm here to help with all your farming questions.",
-//     "Hi there! Ready to discuss farming? What would you like to know?"
-//   ],
-//   planting: [
-//     "For rice planting, the ideal time is during the monsoon season (June-July) when there's adequate rainfall. The temperature should be between 20-35°C for optimal growth.",
-//     "Rice requires specific conditions for planting. I recommend preparing your fields during May and transplanting seedlings in June when monsoon arrives."
-//   ],
-//   irrigation: [
-//     "Wheat typically needs 450-650mm of water throughout its growing season. During the grain filling stage, it requires about 5-7mm per day.",
-//     "For wheat irrigation, maintain soil moisture at 50-70% field capacity. Water stress during flowering can significantly reduce yield."
-//   ],
-//   disease: [
-//     "Yellowing tomato leaves could indicate several issues: nitrogen deficiency, overwatering, or early blight. Check soil drainage and consider a balanced fertilizer application.",
-//     "Yellow leaves on tomatoes often suggest nutrient deficiency or disease. I recommend soil testing and ensuring proper spacing for air circulation."
-//   ],
-//   market: [
-//     "Current cotton prices are showing an upward trend at ₹5,640 per quintal, up 8.7% from last week. This is a good time to consider selling if you have quality produce.",
-//     "Cotton market is performing well this season. Prices have increased due to good export demand and reduced supply from competing regions."
-//   ],
-//   pest: [
-//     "I'd be happy to help identify pests! Please upload a clear image of the affected plant or pest. Common signs include holes in leaves, discoloration, or visible insects.",
-//     "For pest identification, I need a good quality image. Look for signs like chewed leaves, webbing, or small insects on the undersides of leaves."
-//   ],
-//   regional: [
-//     "Your region's climate and soil type determine the best crops. Generally, rice and wheat do well in northern plains, while cotton and sugarcane thrive in western regions.",
-//     "Regional crop selection depends on rainfall, temperature, and soil conditions. I can provide specific recommendations if you share your location details."
-//   ],
-//   default: [
-//     "That's an interesting question! Could you provide more details so I can give you the most accurate advice?",
-//     "I'd love to help with that. Can you share more context about your specific situation?",
-//     "Great question! Let me think about the best way to address this farming concern."
-//   ]
-// };
-
-// function AIChatbot() {
-//   const [messages, setMessages] = useState([
-//     {
-//       id: 1,
-//       type: 'bot',
-//       message: "Hello! I'm your AI farming assistant. I can help you with crop cultivation, disease identification, weather advice, market prices, and much more. How can I assist you today?",
-//       timestamp: new Date()
-//     }
-//   ]);
-//   const [inputMessage, setInputMessage] = useState('');
-//   const [isListening, setIsListening] = useState(false);
-//   const [isSpeaking, setIsSpeaking] = useState(false);
-//   const [isTyping, setIsTyping] = useState(false);
-//   const messagesEndRef = useRef(null);
-//   const inputRef = useRef(null);
-
-//   const scrollToBottom = () => {
-//     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-//   };
-
-//   useEffect(() => {
-//     scrollToBottom();
-//   }, [messages]);
-
-//   const getBotResponse = (userMessage) => {
-//     const message = userMessage.toLowerCase();
-    
-//     if (message.includes('plant') || message.includes('sow') || message.includes('seed')) {
-//       return botResponses.planting[Math.floor(Math.random() * botResponses.planting.length)];
-//     } else if (message.includes('water') || message.includes('irrigation') || message.includes('drought')) {
-//       return botResponses.irrigation[Math.floor(Math.random() * botResponses.irrigation.length)];
-//     } else if (message.includes('yellow') || message.includes('disease') || message.includes('sick') || message.includes('problem')) {
-//       return botResponses.disease[Math.floor(Math.random() * botResponses.disease.length)];
-//     } else if (message.includes('price') || message.includes('market') || message.includes('sell') || message.includes('cost')) {
-//       return botResponses.market[Math.floor(Math.random() * botResponses.market.length)];
-//     } else if (message.includes('pest') || message.includes('insect') || message.includes('bug') || message.includes('identify')) {
-//       return botResponses.pest[Math.floor(Math.random() * botResponses.pest.length)];
-//     } else if (message.includes('region') || message.includes('area') || message.includes('location') || message.includes('climate')) {
-//       return botResponses.regional[Math.floor(Math.random() * botResponses.regional.length)];
-//     } else if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-//       return botResponses.greeting[Math.floor(Math.random() * botResponses.greeting.length)];
-//     } else {
-//       return botResponses.default[Math.floor(Math.random() * botResponses.default.length)];
-//     }
-//   };
-
-//   const handleSendMessage = () => {
-//     if (!inputMessage.trim()) return;
-
-//     const userMessage = {
-//       id: Date.now(),
-//       type: 'user',
-//       message: inputMessage,
-//       timestamp: new Date()
-//     };
-
-//     setMessages(prev => [...prev, userMessage]);
-//     setInputMessage('');
-//     setIsTyping(true);
-
-//     // Simulate bot typing delay
-//     setTimeout(() => {
-//       const botMessage = {
-//         id: Date.now() + 1,
-//         type: 'bot',
-//         message: getBotResponse(inputMessage),
-//         timestamp: new Date()
-//       };
-      
-//       setMessages(prev => [...prev, botMessage]);
-//       setIsTyping(false);
-//     }, 1500 + Math.random() * 1000);
-//   };
-
-//   const handleQuickQuestion = (question) => {
-//     setInputMessage(question);
-//     inputRef.current?.focus();
-//   };
-
-//   const handleVoiceInput = () => {
-//     if (!isListening) {
-//       setIsListening(true);
-//       // Simulate voice recognition
-//       setTimeout(() => {
-//         setIsListening(false);
-//         setInputMessage("What's the best fertilizer for my wheat crop?");
-//       }, 3000);
-//     } else {
-//       setIsListening(false);
-//     }
-//   };
-
-//   const handleTextToSpeech = (message) => {
-//     if (!isSpeaking) {
-//       setIsSpeaking(true);
-//       // Simulate text-to-speech
-//       setTimeout(() => {
-//         setIsSpeaking(false);
-//       }, 3000);
-//     } else {
-//       setIsSpeaking(false);
-//     }
-//   };
-
-//   const formatTime = (timestamp) => {
-//     return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 flex flex-col">
-//       {/* Header */}
-//       <motion.div
-//         initial={{ y: -20, opacity: 0 }}
-//         animate={{ y: 0, opacity: 1 }}
-//         className="bg-white/80 backdrop-blur-md border-b border-gray-100 p-6 shadow-sm"
-//       >
-//         <div className="max-w-4xl mx-auto flex items-center justify-between">
-//           <div className="flex items-center space-x-4">
-//             <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center">
-//               <Bot className="w-7 h-7 text-white" />
-//             </div>
-//             <div>
-//               <h1 className="text-2xl font-bold text-gray-800">AI Farming Assistant</h1>
-//               <p className="text-gray-600">Your intelligent farming companion</p>
-//             </div>
-//           </div>
-//           <div className="flex items-center space-x-2">
-//             <button className="p-2 text-gray-600 hover:text-gray-800 transition-colors">
-//               <Settings className="w-5 h-5" />
-//             </button>
-//           </div>
-//         </div>
-//       </motion.div>
-
-//       {/* Quick Questions */}
-//       <div className="bg-white/50 border-b border-gray-100 p-4">
-//         <div className="max-w-4xl mx-auto">
-//           <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Questions</h3>
-//           <div className="flex space-x-3 overflow-x-auto pb-2">
-//             {quickQuestions.map((question, index) => (
-//               <motion.button
-//                 key={index}
-//                 initial={{ opacity: 0, x: 20 }}
-//                 animate={{ opacity: 1, x: 0 }}
-//                 transition={{ delay: index * 0.1 }}
-//                 onClick={() => handleQuickQuestion(question.text)}
-//                 className="flex-shrink-0 flex items-center space-x-2 px-4 py-2 bg-white rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 text-sm"
-//               >
-//                 <question.icon className="w-4 h-4 text-purple-600" />
-//                 <span className="text-gray-700 whitespace-nowrap">{question.category}</span>
-//               </motion.button>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Chat Messages */}
-//       <div className="flex-1 overflow-y-auto p-6">
-//         <div className="max-w-4xl mx-auto space-y-6">
-//           <AnimatePresence>
-//             {messages.map((message) => (
-//               <motion.div
-//                 key={message.id}
-//                 initial={{ opacity: 0, y: 20 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 exit={{ opacity: 0, y: -20 }}
-//                 className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-//               >
-//                 <div className={`flex items-start space-x-3 max-w-3xl ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-//                   {/* Avatar */}
-//                   <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 ${
-//                     message.type === 'user' 
-//                       ? 'bg-gradient-to-r from-green-500 to-green-600' 
-//                       : 'bg-gradient-to-r from-purple-500 to-indigo-500'
-//                   }`}>
-//                     {message.type === 'user' ? (
-//                       <User className="w-5 h-5 text-white" />
-//                     ) : (
-//                       <Bot className="w-5 h-5 text-white" />
-//                     )}
-//                   </div>
-
-//                   {/* Message Bubble */}
-//                   <div className={`relative px-6 py-4 rounded-3xl shadow-sm ${
-//                     message.type === 'user'
-//                       ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
-//                       : 'bg-white border border-gray-200 text-gray-800'
-//                   }`}>
-//                     <p className="text-sm leading-relaxed">{message.message}</p>
-//                     <div className={`flex items-center justify-between mt-2 text-xs ${
-//                       message.type === 'user' ? 'text-green-100' : 'text-gray-500'
-//                     }`}>
-//                       <span>{formatTime(message.timestamp)}</span>
-//                       {message.type === 'bot' && (
-//                         <button
-//                           onClick={() => handleTextToSpeech(message.message)}
-//                           className="ml-2 p-1 hover:bg-gray-100 rounded-lg transition-colors"
-//                         >
-//                           {isSpeaking ? (
-//                             <VolumeX className="w-3 h-3" />
-//                           ) : (
-//                             <Volume2 className="w-3 h-3" />
-//                           )}
-//                         </button>
-//                       )}
-//                     </div>
-//                   </div>
-//                 </div>
-//               </motion.div>
-//             ))}
-//           </AnimatePresence>
-
-//           {/* Typing Indicator */}
-//           <AnimatePresence>
-//             {isTyping && (
-//               <motion.div
-//                 initial={{ opacity: 0, y: 20 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 exit={{ opacity: 0, y: -20 }}
-//                 className="flex justify-start"
-//               >
-//                 <div className="flex items-start space-x-3">
-//                   <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center">
-//                     <Bot className="w-5 h-5 text-white" />
-//                   </div>
-//                   <div className="bg-white border border-gray-200 rounded-3xl px-6 py-4">
-//                     <div className="flex space-x-1">
-//                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-//                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-//                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </motion.div>
-//             )}
-//           </AnimatePresence>
-
-//           <div ref={messagesEndRef} />
-//         </div>
-//       </div>
-
-//       {/* Input Area */}
-//       <div className="bg-white/80 backdrop-blur-md border-t border-gray-100 p-6">
-//         <div className="max-w-4xl mx-auto">
-//           <div className="flex items-center space-x-4">
-//             <div className="flex-1 relative">
-//               <input
-//                 ref={inputRef}
-//                 type="text"
-//                 value={inputMessage}
-//                 onChange={(e) => setInputMessage(e.target.value)}
-//                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-//                 placeholder="Ask me anything about farming..."
-//                 className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 pr-16"
-//               />
-//               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
-//                 <button
-//                   onClick={handleVoiceInput}
-//                   className={`p-2 rounded-xl transition-all duration-200 ${
-//                     isListening 
-//                       ? 'bg-red-500 text-white animate-pulse' 
-//                       : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-//                   }`}
-//                 >
-//                   {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-//                 </button>
-//               </div>
-//             </div>
-            
-//             <motion.button
-//               whileHover={{ scale: 1.05 }}
-//               whileTap={{ scale: 0.95 }}
-//               onClick={handleSendMessage}
-//               disabled={!inputMessage.trim()}
-//               className="p-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-//             >
-//               <Send className="w-5 h-5" />
-//             </motion.button>
-//           </div>
-
-//           {/* Voice Status */}
-//           <AnimatePresence>
-//             {isListening && (
-//               <motion.div
-//                 initial={{ opacity: 0, y: 10 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 exit={{ opacity: 0, y: -10 }}
-//                 className="mt-4 flex items-center justify-center space-x-2 text-red-600"
-//               >
-//                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-//                 <span className="text-sm font-medium">Listening...</span>
-//               </motion.div>
-//             )}
-//           </AnimatePresence>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AIChatbot;/
 
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -986,22 +594,22 @@ const stopSpeaking = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.chatBox}>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-0 md:p-5 font-sans">
+      <div className="w-full max-w-4xl h-screen md:h-[90vh] bg-white md:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div style={styles.header}>
+        <div className="p-4 md:p-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white flex justify-between items-center flex-wrap gap-3">
           <div>
-            <h2 style={styles.title}>🌾 किसान सहायक</h2>
-            <p style={styles.subtitle}>Farmer Assistant</p>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold m-0">🌾 किसान सहायक</h2>
+            <p className="text-xs md:text-sm opacity-90 mt-1">Farmer Assistant</p>
           </div>
-          <div style={styles.controls}>
+          <div className="flex gap-2 md:gap-3 items-center">
             <select
               value={selectedLanguage}
               onChange={(e) => {
                 setSelectedLanguage(e.target.value);
                 setError(null);
               }}
-              style={styles.languageSelect}
+              className="px-3 py-2 md:px-4 md:py-2.5 rounded-lg border-none bg-white text-gray-800 text-sm md:text-base font-medium cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-white"
             >
               {languages.map(lang => (
                 <option key={lang.code} value={lang.code}>
@@ -1011,62 +619,62 @@ const stopSpeaking = () => {
             </select>
             <button
               onClick={testVoice}
-              style={styles.iconButton}
+              className="bg-white/20 border-none text-white p-2 md:p-2.5 rounded-lg cursor-pointer flex items-center justify-center transition-all hover:bg-white/30 active:scale-95 text-base md:text-lg"
               title="Test voice output"
             >
               🔊
             </button>
             <button
               onClick={() => setAutoSpeak(!autoSpeak)}
-              style={styles.iconButton}
+              className="bg-white/20 border-none text-white p-2 md:p-2.5 rounded-lg cursor-pointer flex items-center justify-center transition-all hover:bg-white/30 active:scale-95"
               title={autoSpeak ? 'Disable auto-speak' : 'Enable auto-speak'}
             >
-              {autoSpeak ? <Volume2 size={20} /> : <VolumeX size={20} />}
+              {autoSpeak ? <Volume2 size={18} className="md:w-5 md:h-5" /> : <VolumeX size={18} className="md:w-5 md:h-5" />}
             </button>
             <button
               onClick={handleClearChat}
-              style={styles.iconButton}
+              className="bg-white/20 border-none text-white p-2 md:p-2.5 rounded-lg cursor-pointer flex items-center justify-center transition-all hover:bg-white/30 active:scale-95"
               title="Clear chat"
             >
-              <Trash2 size={20} />
+              <Trash2 size={18} className="md:w-5 md:h-5" />
             </button>
           </div>
         </div>
 
         {/* Error Banner */}
         {error && (
-          <div style={styles.errorBanner}>
+          <div className="px-5 py-3 bg-red-50 text-red-800 flex items-center gap-3 text-sm border-b border-red-200">
             <AlertCircle size={16} />
-            <span style={{whiteSpace: 'pre-line'}}>{error}</span>
-            <button onClick={() => setError(null)} style={styles.closeError}>×</button>
+            <span className="whitespace-pre-line flex-1">{error}</span>
+            <button onClick={() => setError(null)} className="ml-auto bg-transparent border-none text-red-800 text-2xl cursor-pointer p-0 px-2 leading-none hover:opacity-70">×</button>
           </div>
         )}
 
         {/* Voice Status */}
         {!voicesLoaded && (
-          <div style={{...styles.errorBanner, backgroundColor: '#fef3c7', color: '#92400e'}}>
-            <Loader size={16} style={styles.spinner} />
+          <div className="px-5 py-3 bg-amber-50 text-amber-800 flex items-center gap-3 text-sm border-b border-amber-200">
+            <Loader size={16} className="animate-spin" />
             <span>वॉइस लोड हो रहे हैं... (Loading voices...)</span>
           </div>
         )}
 
         {/* Messages */}
-        <div style={styles.messagesContainer}>
+        <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 flex flex-col gap-4 bg-gray-50">
           {messages.length === 0 && (
-            <div style={styles.welcomeMessage}>
-              <p style={styles.welcomeEmoji}>🙏</p>
-              <p style={styles.welcomeText}>
+            <div className="text-center text-slate-600 py-10 md:py-16 px-4 max-w-2xl mx-auto">
+              <p className="text-3xl md:text-5xl mb-4">🙏</p>
+              <p className="text-xl md:text-2xl font-bold text-slate-800 mb-3">
                 {languages.find(l => l.code === selectedLanguage)?.sampleText || 'नमस्ते'}!
               </p>
-              <p style={styles.welcomeDesc}>
+              <p className="text-base md:text-lg leading-relaxed mb-2 text-slate-700">
                 मैं आपका कृषि सहायक हूं। मुझसे खेती से जुड़े कोई भी सवाल पूछें।
               </p>
-              <p style={styles.welcomeDescEn}>
+              <p className="text-sm md:text-base text-slate-500 italic">
                 I'm your agricultural assistant. Ask me any farming questions.
               </p>
               
               {!speechSupported && (
-                <div style={styles.voiceWarning}>
+                <div className="mt-6 p-4 bg-amber-50 text-amber-900 rounded-lg text-sm md:text-base leading-relaxed">
                   ⚠️ वॉइस इनपुट उपलब्ध नहीं है। कृपया टाइप करें।<br/>
                   (Voice input not available. Please type.)
                 </div>
@@ -1077,19 +685,18 @@ const stopSpeaking = () => {
           {messages.map((msg, index) => (
             <div
               key={index}
-              style={{
-                ...styles.messageWrapper,
-                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start'
-              }}
+              className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                style={{
-                  ...styles.message,
-                  ...(msg.role === 'user' ? styles.userMessage : styles.aiMessage),
-                  ...(msg.isError ? styles.errorMessage : {})
-                }}
+                className={`max-w-[85%] md:max-w-[75%] px-3 py-2.5 md:px-4 md:py-3.5 rounded-2xl leading-relaxed break-words text-sm md:text-base shadow-sm ${
+                  msg.role === 'user' 
+                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-br-sm' 
+                    : msg.isError 
+                    ? 'bg-red-50 text-red-800 border border-red-200 rounded-bl-sm'
+                    : 'bg-white text-slate-800 border border-slate-200 rounded-bl-sm'
+                }`}
               >
-                <div style={styles.messageContent}>
+                <div className="whitespace-pre-wrap">
                   {msg.content}
                 </div>
               </div>
@@ -1097,9 +704,9 @@ const stopSpeaking = () => {
           ))}
 
           {isLoading && (
-            <div style={styles.messageWrapper}>
-              <div style={{...styles.message, ...styles.aiMessage}}>
-                <Loader size={16} style={styles.spinner} />
+            <div className="flex w-full justify-start">
+              <div className="max-w-[85%] md:max-w-[75%] px-3 py-2.5 md:px-4 md:py-3.5 rounded-2xl bg-white text-slate-800 border border-slate-200 rounded-bl-sm shadow-sm text-sm md:text-base">
+                <Loader size={16} className="inline-block animate-spin mr-2" />
                 सोच रहा हूं... (Thinking...)
               </div>
             </div>
@@ -1109,18 +716,19 @@ const stopSpeaking = () => {
         </div>
 
         {/* Input Area */}
-        <div style={styles.inputContainer}>
+        <div className="px-4 md:px-6 py-3 md:py-5 border-t border-slate-200 flex gap-2 md:gap-3 items-center bg-white">
           {speechSupported && (
             <button
               onClick={isListening ? stopListening : startListening}
-              style={{
-                ...styles.micButton,
-                ...(isListening ? styles.micButtonActive : {})
-              }}
+              className={`p-2.5 md:p-3.5 rounded-full border-2 cursor-pointer flex items-center justify-center transition-all flex-shrink-0 ${
+                isListening 
+                  ? 'bg-red-500 border-red-500 text-white animate-pulse shadow-lg shadow-red-500/40'
+                  : 'bg-white border-green-600 text-green-600 shadow-md shadow-green-600/20 hover:bg-green-50'
+              }`}
               disabled={isLoading}
               title={isListening ? 'बोलना बंद करें (Stop listening)' : 'बोलना शुरू करें (Start speaking)'}
             >
-              {isListening ? <MicOff size={24} /> : <Mic size={24} />}
+              {isListening ? <MicOff size={20} className="md:w-6 md:h-6" /> : <Mic size={20} className="md:w-6 md:h-6" />}
             </button>
           )}
 
@@ -1130,40 +738,36 @@ const stopSpeaking = () => {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={`${languages.find(l => l.code === selectedLanguage)?.sampleText}... अपना सवाल टाइप करें (Type your question)`}
-            style={styles.input}
+            className="flex-1 px-3 py-2.5 md:px-5 md:py-3.5 rounded-3xl border-2 border-slate-200 text-base outline-none transition-all focus:border-green-600 focus:ring-4 focus:ring-green-600/10 disabled:bg-slate-100 disabled:cursor-not-allowed"
             disabled={isLoading || isListening}
           />
 
           <button
             onClick={handleSendMessage}
-            style={{
-              ...styles.sendButton,
-              opacity: (!inputMessage.trim() || isLoading) ? 0.5 : 1,
-              cursor: (!inputMessage.trim() || isLoading) ? 'not-allowed' : 'pointer'
-            }}
             disabled={!inputMessage.trim() || isLoading}
+            className="p-2.5 md:p-3.5 rounded-full border-none bg-gradient-to-r from-green-600 to-emerald-600 text-white cursor-pointer flex items-center justify-center transition-all flex-shrink-0 shadow-lg shadow-green-600/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             title="भेजें (Send)"
           >
-            <Send size={24} />
+            <Send size={20} className="md:w-6 md:h-6" />
           </button>
         </div>
 
         {/* Status Indicators */}
         {isSpeaking && (
-          <div style={styles.statusBar}>
-            <Volume2 size={16} className="pulse-animation" />
+          <div className="px-6 py-3.5 bg-blue-100 text-blue-900 flex items-center gap-3 text-sm font-medium border-t border-blue-200">
+            <Volume2 size={16} className="animate-pulse" />
             <span>बोल रहा हूं... (Speaking...)</span>
-            <button onClick={stopSpeaking} style={styles.stopButton}>
+            <button onClick={stopSpeaking} className="ml-auto px-4 py-1.5 rounded-md border-none bg-blue-900 text-white cursor-pointer text-sm font-semibold transition-all hover:bg-blue-800 active:scale-95">
               रोकें (Stop)
             </button>
           </div>
         )}
 
         {isListening && (
-          <div style={{...styles.statusBar, backgroundColor: '#fee2e2', color: '#991b1b'}}>
-            <Mic size={16} className="pulse-animation" />
+          <div className="px-6 py-3.5 bg-red-100 text-red-900 flex items-center gap-3 text-sm font-medium border-t border-red-200">
+            <Mic size={16} className="animate-pulse" />
             <span>सुन रहा हूं... बोलिए (Listening... Speak now)</span>
-            <button onClick={stopListening} style={{...styles.stopButton, backgroundColor: '#991b1b'}}>
+            <button onClick={stopListening} className="ml-auto px-4 py-1.5 rounded-md border-none bg-red-900 text-white cursor-pointer text-sm font-semibold transition-all hover:bg-red-800 active:scale-95">
               रोकें (Stop)
             </button>
           </div>
@@ -1172,339 +776,5 @@ const stopSpeaking = () => {
     </div>
   );
 };
-
-// Styles
-const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f0f4f8',
-    padding: '20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif'
-  },
-  chatBox: {
-    width: '100%',
-    maxWidth: '900px',
-    height: '90vh',
-    backgroundColor: 'white',
-    borderRadius: '16px',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden'
-  },
-  header: {
-    padding: '24px',
-    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    color: 'white',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: '12px'
-  },
-  title: {
-    margin: 0,
-    fontSize: '1.75rem',
-    fontWeight: 'bold',
-    letterSpacing: '-0.5px'
-  },
-  subtitle: {
-    margin: '4px 0 0 0',
-    fontSize: '0.875rem',
-    opacity: 0.9,
-    fontWeight: 'normal'
-  },
-  controls: {
-    display: 'flex',
-    gap: '10px',
-    alignItems: 'center'
-  },
-  languageSelect: {
-    padding: '10px 14px',
-    borderRadius: '8px',
-    border: 'none',
-    backgroundColor: 'white',
-    color: '#333',
-    fontSize: '15px',
-    fontWeight: '500',
-    cursor: 'pointer',
-    outline: 'none',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-  },
-  iconButton: {
-    background: 'rgba(255, 255, 255, 0.2)',
-    border: 'none',
-    color: 'white',
-    padding: '10px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.2s',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    fontSize: '18px'
-  },
-  errorBanner: {
-    padding: '12px 20px',
-    backgroundColor: '#fef2f2',
-    color: '#991b1b',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    fontSize: '14px',
-    borderBottom: '1px solid #fecaca'
-  },
-  closeError: {
-    marginLeft: 'auto',
-    background: 'none',
-    border: 'none',
-    color: '#991b1b',
-    fontSize: '24px',
-    cursor: 'pointer',
-    padding: '0 8px',
-    lineHeight: '1'
-  },
-  messagesContainer: {
-    flex: 1,
-    overflowY: 'auto',
-    padding: '24px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    backgroundColor: '#fafafa'
-  },
-  welcomeMessage: {
-    textAlign: 'center',
-    color: '#64748b',
-    padding: '60px 20px',
-    maxWidth: '600px',
-    margin: '0 auto'
-  },
-  welcomeEmoji: {
-    fontSize: '3rem',
-    margin: '0 0 16px 0'
-  },
-  welcomeText: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: '#1e293b',
-    margin: '0 0 12px 0'
-  },
-  welcomeDesc: {
-    fontSize: '1.1rem',
-    lineHeight: '1.6',
-    margin: '0 0 8px 0',
-    color: '#475569'
-  },
-  welcomeDescEn: {
-    fontSize: '0.95rem',
-    color: '#94a3b8',
-    fontStyle: 'italic',
-    margin: '0'
-  },
-  voiceWarning: {
-    marginTop: '24px',
-    padding: '16px',
-    backgroundColor: '#fef3c7',
-    color: '#92400e',
-    borderRadius: '8px',
-    fontSize: '0.9rem',
-    lineHeight: '1.5'
-  },
-  messageWrapper: {
-    display: 'flex',
-    width: '100%',
-    animation: 'fadeIn 0.3s ease-in'
-  },
-  message: {
-    maxWidth: '75%',
-    padding: '14px 18px',
-    borderRadius: '16px',
-    lineHeight: '1.6',
-    wordWrap: 'break-word',
-    fontSize: '15px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-  },
-  messageContent: {
-    whiteSpace: 'pre-wrap'
-  },
-  userMessage: {
-    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    color: 'white',
-    borderBottomRightRadius: '4px'
-  },
-  aiMessage: {
-    backgroundColor: 'white',
-    color: '#1e293b',
-    borderBottomLeftRadius: '4px',
-    border: '1px solid #e2e8f0'
-  },
-  errorMessage: {
-    backgroundColor: '#fee2e2',
-    color: '#991b1b',
-    border: '1px solid #fecaca'
-  },
-  inputContainer: {
-    padding: '20px 24px',
-    borderTop: '1px solid #e2e8f0',
-    display: 'flex',
-    gap: '12px',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  micButton: {
-    padding: '14px',
-    borderRadius: '50%',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: '#10b981',
-    backgroundColor: 'white',
-    color: '#10b981',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s',
-    flexShrink: 0,
-    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
-  },
-  micButtonActive: {
-    backgroundColor: '#ef4444',
-    borderColor: '#ef4444',
-    color: 'white',
-    animation: 'pulse 1.5s infinite',
-    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)'
-  },
-  input: {
-    flex: 1,
-    padding: '14px 18px',
-    borderRadius: '24px',
-    border: '2px solid #e2e8f0',
-    fontSize: '16px',
-    outline: 'none',
-    transition: 'all 0.2s',
-    fontFamily: 'inherit'
-  },
-  sendButton: {
-    padding: '14px',
-    borderRadius: '50%',
-    border: 'none',
-    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-    color: 'white',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'all 0.3s',
-    flexShrink: 0,
-    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
-  },
-  statusBar: {
-    padding: '14px 24px',
-    backgroundColor: '#dbeafe',
-    color: '#1e40af',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    fontSize: '14px',
-    fontWeight: '500',
-    borderTop: '1px solid #bfdbfe'
-  },
-  stopButton: {
-    marginLeft: 'auto',
-    padding: '6px 16px',
-    borderRadius: '6px',
-    border: 'none',
-    backgroundColor: '#1e40af',
-    color: 'white',
-    cursor: 'pointer',
-    fontSize: '13px',
-    fontWeight: '600',
-    transition: 'all 0.2s'
-  },
-  spinner: {
-    animation: 'spin 1s linear infinite',
-    marginRight: '8px',
-    display: 'inline-block'
-  }
-};
-
-// Add CSS animations
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { 
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% { 
-      opacity: 0.8;
-      transform: scale(1.05);
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .pulse-animation {
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  *::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-  }
-
-  *::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-  }
-
-  input:focus {
-    border-color: #10b981 !important;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
-  }
-
-  button:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  button:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  @media (max-width: 768px) {
-    .chatBox {
-      height: 100vh !important;
-      border-radius: 0 !important;
-    }
-  }
-`;
-document.head.appendChild(styleSheet);
 
 export default AIChatBot;
