@@ -23,10 +23,10 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 relative overflow-hidden">
       {/* 🌾 Hero Section with Image and Text Overlay */}
-      <section className="relative w-full h-[90vh] flex items-center justify-center text-center">
+      <section className="relative w-full h-screen min-h-[600px] flex items-center justify-center text-center">
         {/* 🖼️ Hero Section Image */}
         <div className="absolute inset-0">
-          <img src={bgimage} alt="Farming" className="w-full h-full object-cover opacity-60" />
+          <img src={bgimage} alt="Farming" className="w-full h-full object-cover" />
         </div>
 
         <div className="absolute inset-0 bg-black/40"></div>

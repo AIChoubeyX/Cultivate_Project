@@ -607,7 +607,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import FeatureCards from '../components/FeatureCards';
 import Links from '../components/Links'; // ⭐ Import Links component
-import heroBanner from '../assets/robo.jpg'; // ⭐ Import hero banner image
+import heroBanner from '../assets/heroImg.jpg'; // ⭐ Import hero banner image
 import harvesterImg from '../assets/hero.jpg'; // ⭐ Import harvester image
 
 /**
@@ -652,69 +652,44 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* ✅ HERO BANNER SECTION - NEW */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl mb-12 mt-8"
-        >
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <img 
-              src={heroBanner} 
-              alt="Indian Farmer Journal" 
-              className="w-full h-full object-cover"
-            />
-          </div>
+      {/* ✅ FULL SCREEN HERO SECTION WITH BACKGROUND */}
+      <div 
+        className="relative w-full h-screen min-h-[600px] bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBanner})` }}
+      >
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
 
-          {/* Overlay Gradient for better text visibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent"></div>
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex flex-col justify-center items-start px-4 sm:px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="max-w-4xl"
+          >
+            {/* Main Title */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 sm:mb-6 drop-shadow-2xl leading-tight">
+              {t('hero.title')}
+            </h1>
 
-          {/* Text Content */}
-          <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 md:px-12 lg:px-20">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="max-w-2xl"
-            >
-              {/* Main Title */}
-              <h1 className="text-hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 drop-shadow-2xl tracking-tight">
-                {t('hero.title')}
-              </h1>
-
-              {/* Inspirational Quote */}
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-amber-50 font-light italic max-w-3xl drop-shadow-lg leading-relaxed mb-4 md:mb-6 border-l-4 border-amber-400 pl-4 bg-black/10 backdrop-blur-sm py-3 rounded-r-lg">
+            {/* Inspirational Quote */}
+            <div className="border-l-4 border-amber-400 pl-4 sm:pl-6 mb-6 sm:mb-8">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/95 font-light italic leading-relaxed drop-shadow-lg">
                 "{t('hero.quote')}"
               </p>
+            </div>
 
-              {/* Description */}
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-50 font-light max-w-xl drop-shadow-md leading-relaxed border-l-4 border-amber-400 pl-3 md:pl-4 bg-black/20 backdrop-blur-sm py-2 md:py-3 pr-3 md:pr-4 rounded-r-lg">
-                {t('hero.description')}
-              </p>
-            </motion.div>
-          </div>
+            {/* Description */}
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-light max-w-3xl leading-relaxed drop-shadow-md">
+              {t('hero.description')}
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
-          {/* Decorative Border */}
-          <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-green-600 via-amber-500 to-orange-600"></div>
-        </motion.div>
-
-         <motion.div 
-          initial={{ y: 30, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
-          transition={{ duration: 0.6 }} 
-          className="text-center mb-12 px-4"
-        >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            {t('dashboard.welcomeTitle')}
-          </h1>
-          {/* <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-            {t('dashboard.welcomeDesc')}
-          </p> */}
-        </motion.div>
+      {/* ✅ MAIN CONTENT SECTION */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         {/* ✅ FARMER DASHBOARD SECTION - REDESIGNED WITH HARVESTER IMAGE */}
         {user && (
@@ -847,16 +822,13 @@ function HomePage() {
           </motion.div>
         )}
 
-        {/* ✅ HEADER SECTION */}
+        {/* ✅ SECTION TITLE */}
         <motion.div 
           initial={{ y: 30, opacity: 0 }} 
           animate={{ y: 0, opacity: 1 }} 
           transition={{ duration: 0.6 }} 
-          className="text-center mb-12 px-4"
+          className="text-center mb-12"
         >
-          {/* <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-            {t('dashboard.welcomeTitle')}
-          </h1> */}
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
             {t('dashboard.welcomeDesc')}
           </h1>

@@ -249,7 +249,7 @@
 // Updated to use react-i18next instead of custom context
 
 import { useState, Fragment } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, Transition } from "@headlessui/react";
 import {
@@ -261,7 +261,8 @@ import {
   LogOut,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useTranslation } from "react-i18next"; // ⭐ CHANGED: Use react-i18next
+import { useTranslation } from "react-i18next";
+import logo from "../assets/logosick.png"; // ⭐ CHANGED: Use react-i18next
 
 // Language list
 const languages = [
@@ -300,37 +301,60 @@ function Navbar() {
     }
   };
 
+  // Check if we're on the home page
+  const location = useLocation();
+  const isHomePage = location.pathname === '/home' || location.pathname === '/';
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm"
+      className={`${
+        isHomePage 
+          ? 'bg-transparent absolute top-0 left-0 right-0' 
+          : 'bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0'
+      } z-50`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* 🌿 Logo */}
           <Link
             to={isAuthenticated ? "/home" : "/"}
-            className="flex items-center space-x-2"
+            className="flex items-center group"
           >
+            {/* Text Logo */}
             <motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-xl shadow-lg"
+              className="flex flex-col"
             >
-              <Leaf className="w-6 h-6 text-white" />
+              <span className={`text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-none ${
+                isHomePage 
+                  ? 'text-white drop-shadow-lg' 
+                  : 'bg-gradient-to-r from-secondary-600 to-emerald-600 bg-clip-text text-transparent'
+              }`}>
+                Cultivate
+              </span>
+              <span className={`text-[10px] md:text-xs font-medium tracking-wider uppercase ${
+                isHomePage
+                  ? 'text-white/80'
+                  : 'text-gray-600'
+              }`}>
+                Smart Farming
+              </span>
             </motion.div>
-            <span className="text-2xl font-bold text-gray-800">
-              {t('app.name') || 'Kissan'} {/* ⭐ Translatable app name */}
-            </span>
           </Link>
 
           {/* 🌐 Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Language Dropdown */}
             <Menu as="div" className="relative">
-              <Menu.Button className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-secondary-600 rounded-lg hover:bg-gray-50 transition-all duration-200">
+              <Menu.Button className={`flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                isHomePage 
+                  ? 'text-white hover:bg-white/20' 
+                  : 'text-gray-700 hover:text-secondary-600 hover:bg-gray-50'
+              }`}>
                 <span>{selectedLanguage.flag}</span>
                 <span>{selectedLanguage.name}</span>
                 <ChevronDown className="w-4 h-4" />
@@ -373,7 +397,11 @@ function Navbar() {
             {/* 👤 Auth Section */}
             {isAuthenticated ? (
               <Menu as="div" className="relative">
-                <Menu.Button className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-secondary-600 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                <Menu.Button className={`flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  isHomePage 
+                    ? 'text-white hover:bg-white/20' 
+                    : 'text-gray-700 hover:text-secondary-600 hover:bg-gray-50'
+                }`}>
                   <User className="w-4 h-4" />
                   <span>{user?.name}</span>
                   <ChevronDown className="w-4 h-4" />
@@ -409,9 +437,13 @@ function Navbar() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate("/auth")}
-                className="px-6 py-2 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:from-secondary-600 hover:to-secondary-700"
+                className={`px-6 py-2 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ${
+                  isHomePage
+                    ? 'bg-white text-secondary-600 hover:bg-white/90'
+                    : 'bg-gradient-to-r from-secondary-500 to-secondary-600 text-white hover:from-secondary-600 hover:to-secondary-700'
+                }`}
               >
-                {t('nav.login') || 'Login'} / {t('nav.signup') || 'Signup'} {/* ⭐ Translatable */}
+                {t('nav.login') || 'Login'} / {t('nav.signup') || 'Signup'}
               </motion.button>
             )}
           </div>
@@ -420,7 +452,11 @@ function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+              className={`p-2 rounded-lg transition-colors duration-200 ${
+                isHomePage
+                  ? 'text-white hover:bg-white/20'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
             >
               {isOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
             </button>
@@ -434,19 +470,29 @@ function Navbar() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="md:hidden overflow-hidden"
         >
-          <div className="py-4 space-y-4 border-t border-gray-100">
+          <div className={`py-4 space-y-4 ${
+            isHomePage 
+              ? 'bg-black/80 backdrop-blur-md border-t border-white/20' 
+              : 'border-t border-gray-100'
+          }`}>
             {/* Language Section */}
             <div className="px-2">
-              <p className="text-sm font-medium text-gray-500 mb-2">Language</p>
+              <p className={`text-sm font-medium mb-2 ${
+                isHomePage ? 'text-white/70' : 'text-gray-500'
+              }`}>Language</p>
               <div className="grid grid-cols-2 gap-2">
                 {languages.map((language) => (
                   <button
                     key={language.code}
                     onClick={() => handleLanguageChange(language)}
                     className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${
-                      i18n.language === language.code // ⭐ CHANGED
-                        ? "bg-secondary-100 text-secondary-700"
-                        : "text-gray-700 hover:bg-gray-100"
+                      i18n.language === language.code
+                        ? isHomePage
+                          ? "bg-white/20 text-white"
+                          : "bg-secondary-100 text-secondary-700"
+                        : isHomePage
+                          ? "text-white/80 hover:bg-white/10"
+                          : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
                     <span>{language.flag}</span>
@@ -460,7 +506,9 @@ function Navbar() {
             <div className="px-2">
               {isAuthenticated ? (
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2 px-3 py-2 text-sm text-gray-700">
+                  <div className={`flex items-center space-x-2 px-3 py-2 text-sm ${
+                    isHomePage ? 'text-white' : 'text-gray-700'
+                  }`}>
                     <User className="w-4 h-4" />
                     <span>{user?.name}</span>
                   </div>
@@ -469,10 +517,14 @@ function Navbar() {
                       handleLogout();
                       setIsOpen(false);
                     }}
-                    className="flex items-center space-x-2 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                    className={`flex items-center space-x-2 w-full px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${
+                      isHomePage
+                        ? 'text-red-300 hover:bg-red-500/20'
+                        : 'text-red-600 hover:bg-red-50'
+                    }`}
                   >
                     <LogOut className="w-4 h-4" />
-                    <span>{t('nav.logout') || 'Logout'}</span> {/* ⭐ Translatable */}
+                    <span>{t('nav.logout') || 'Logout'}</span>
                   </button>
                 </div>
               ) : (
@@ -481,9 +533,13 @@ function Navbar() {
                     navigate("/auth");
                     setIsOpen(false);
                   }}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-semibold rounded-xl shadow-lg transition-all duration-300"
+                  className={`w-full px-4 py-2 font-semibold rounded-xl shadow-lg transition-all duration-300 ${
+                    isHomePage
+                      ? 'bg-white text-secondary-600 hover:bg-white/90'
+                      : 'bg-gradient-to-r from-secondary-500 to-secondary-600 text-white'
+                  }`}
                 >
-                  {t('nav.login') || 'Login'} / {t('nav.signup') || 'Signup'} {/* ⭐ Translatable */}
+                  {t('nav.login') || 'Login'} / {t('nav.signup') || 'Signup'}
                 </button>
               )}
             </div>
